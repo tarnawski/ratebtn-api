@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS `vote`;
+
+CREATE TABLE `vote` (
+  `identity` VARCHAR(60) NOT NULL,
+  `hash` VARCHAR(60) NOT NULL,
+  `rate` INTEGER NOT NULL
+);

@@ -1,0 +1,14 @@
+{
+    "name": "tarnawski/ratebtn",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomasz Tarnawski",
+            "email": "tarnawski27@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-pdo": "*"
+    }
+}
