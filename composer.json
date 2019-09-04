@@ -63,5 +63,20 @@
             "allow-contrib": false,
             "require": "4.3.*"
         }
+    },
+    "archive": {
+        "exclude": [
+            ".*",
+            "docker",
+            "tests",
+            "var",
+            "docker-compose.yml",
+            "phpunit.xml.dist",
+            "README.md",
+            ".env",
+            ".env.test",
+            ".git",
+            ".gitignore"
+        ]
     }
 }
