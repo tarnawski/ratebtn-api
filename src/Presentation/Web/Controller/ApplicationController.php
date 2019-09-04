@@ -58,7 +58,7 @@ class ApplicationController extends AbstractController
                 'constraints' => [
                     new NotBlank(),
                     new GreaterThan(0),
-                    new LessThan(5),
+                    new LessThan(6),
                 ],
             ])
             ->getForm();
