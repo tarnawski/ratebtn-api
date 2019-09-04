@@ -29,7 +29,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     public function getByIdentity(Identity $identity): Vote
     {
         $sth = $this->connection->prepare('SELECT * FROM `vote` WHERE `identity` = :identity');
-        $sth->bindParam(':hash', $identity->asString());
+        $sth->bindValue(':hash', $identity->asString());
         $sth->execute();
         $item = $sth->fetch();
 
@@ -46,7 +46,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     public function getByHash(Hash $hash): VoteCollection
     {
         $sth = $this->connection->prepare('SELECT * FROM `vote` WHERE `hash` = :hash');
-        $sth->bindParam(':hash', $hash->asString());
+        $sth->bindValue(':hash', $hash->asString());
         $sth->execute();
 
         $votes = array_map(function (array $item) {
@@ -68,9 +68,9 @@ class PDOVoteRepository implements VoteRepositoryInterface
         $sth = $this->connection->prepare(
             'INSERT INTO `vote` (`identity`, `hash`, `rate`) VALUES(:identity, :hash, :rate)'
         );
-        $sth->bindParam(':identity', $vote->getIdentity()->asString());
-        $sth->bindParam(':hash', $vote->getHash()->asString());
-        $sth->bindParam(':rate', $vote->getRate()->asInteger());
+        $sth->bindValue(':identity', $vote->getIdentity()->asString());
+        $sth->bindValue(':hash', $vote->getHash()->asString());
+        $sth->bindValue(':rate', $vote->getRate()->asInteger());
         $sth->execute();
     }
 }

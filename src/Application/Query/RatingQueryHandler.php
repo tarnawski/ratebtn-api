@@ -1,9 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Feedback\Application\Query;
+namespace App\Application\Query;
 
+use App\Application\Exception\RetrieveVotesException;
+use App\Domain\Exception\DomainException;
 use App\Domain\Vote\Hash;
 use App\Domain\VoteRepositoryInterface;
+use App\Application\DTO\Rating;
+use App\Infrastructure\Exception\PersistenceException;
 
 class RatingQueryHandler
 {
@@ -11,13 +15,32 @@ class RatingQueryHandler
     private $voteRepository;
 
     /**
-     * @param RatingQuery $query
-     * @return Raring
+     * @param VoteRepositoryInterface $voteRepository
      */
-    public function handle(RatingQuery $query): Raring
+    public function __construct(VoteRepositoryInterface $voteRepository)
     {
-        $votes = $this->voteRepository->getByHash(Hash::fromString($query->getHash()));
+        $this->voteRepository = $voteRepository;
+    }
 
-        return new Raring($votes->getNumberOfVotes(), $votes->calculateAverageOfVotes())
+    /**
+     * @param RatingQuery $query
+     * @return Rating
+     * @throws RetrieveVotesException
+     */
+    public function handle(RatingQuery $query): Rating
+    {
+        try {
+            $hash = Hash::fromString($query->getHash());
+        } catch (DomainException $exception) {
+            throw new RetrieveVotesException('', 0, $exception);
+        }
+
+        try {
+            $votes = $this->voteRepository->getByHash($hash);
+        } catch (PersistenceException $exception) {
+            throw new RetrieveVotesException('', 0, $exception);
+        }
+
+        return new Rating($votes->getNumberOfVotes(), $votes->calculateAverageOfVotes());
     }
 }

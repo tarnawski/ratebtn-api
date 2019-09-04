@@ -10,7 +10,6 @@ class Rate
     private $value;
 
     /**
-     * Rate constructor.
      * @param int $value
      * @throws InvalidArgumentException
      */

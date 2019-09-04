@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Feedback\Application\Command;
+namespace App\Application\Command;
 
 use App\Domain\Exception\DomainException;
 use App\Infrastructure\Exception\PersistenceException;
@@ -14,6 +14,14 @@ class VoteCommandHandler
 {
     /** @var VoteRepositoryInterface */
     private $voteRepository;
+
+    /**
+     * @param VoteRepositoryInterface $voteRepository
+     */
+    public function __construct(VoteRepositoryInterface $voteRepository)
+    {
+        $this->voteRepository = $voteRepository;
+    }
 
     /**
      * @param VoteCommand $command

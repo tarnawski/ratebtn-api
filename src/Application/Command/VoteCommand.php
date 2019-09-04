@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Feedback\Application\Command;
+namespace App\Application\Command;
 
 class VoteCommand
 {

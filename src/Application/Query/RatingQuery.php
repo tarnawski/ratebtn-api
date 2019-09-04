@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Feedback\Application\Query;
+namespace App\Application\Query;
 
 class RatingQuery
 {

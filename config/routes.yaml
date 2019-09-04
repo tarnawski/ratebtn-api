@@ -1,0 +1,9 @@
+rating:
+    path: /rating/{identity}
+    controller: App\Presentation\Web\Controller\ApplicationController::ratingAction
+    methods: [GET]
+
+vote:
+    path: /vote
+    controller: App\Presentation\Web\Controller\ApplicationController::voteAction
+    methods: [POST]
