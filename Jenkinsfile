@@ -3,6 +3,6 @@ node {
 		checkout scm
 	}
 	stage('Composer Install') {
-    	sh 'composer install'
+    	sh 'composer install --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
     }
 }
