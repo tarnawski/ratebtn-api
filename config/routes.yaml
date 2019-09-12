@@ -1,5 +1,5 @@
 rating:
-    path: /rating/{identity}
+    path: /rating
     controller: App\Presentation\Web\Controller\ApplicationController::ratingAction
     methods: [GET]
 

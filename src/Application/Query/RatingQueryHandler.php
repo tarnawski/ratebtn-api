@@ -4,7 +4,7 @@ namespace App\Application\Query;
 
 use App\Application\Exception\RetrieveVotesException;
 use App\Domain\Exception\DomainException;
-use App\Domain\Vote\Hash;
+use App\Domain\Vote\Url;
 use App\Domain\VoteRepositoryInterface;
 use App\Application\DTO\Rating;
 use App\Infrastructure\Exception\PersistenceException;
@@ -30,13 +30,13 @@ class RatingQueryHandler
     public function handle(RatingQuery $query): Rating
     {
         try {
-            $hash = Hash::fromString($query->getHash());
+            $url = Url::fromString($query->getUrl());
         } catch (DomainException $exception) {
             throw new RetrieveVotesException('', 0, $exception);
         }
 
         try {
-            $votes = $this->voteRepository->getByHash($hash);
+            $votes = $this->voteRepository->getByUrl($url);
         } catch (PersistenceException $exception) {
             throw new RetrieveVotesException('', 0, $exception);
         }

@@ -32,7 +32,7 @@ class Identity
      */
     public static function fromString(string $value): Identity
     {
-        return new Identity($value);
+        return new self($value);
     }
 
     /**

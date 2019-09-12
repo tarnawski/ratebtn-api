@@ -29,7 +29,7 @@ class Rate
      */
     public static function fromInteger(int $value): Rate
     {
-        return new Rate($value);
+        return new self($value);
     }
 
     /**

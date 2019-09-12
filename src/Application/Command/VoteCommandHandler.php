@@ -4,7 +4,7 @@ namespace App\Application\Command;
 
 use App\Domain\Exception\DomainException;
 use App\Infrastructure\Exception\PersistenceException;
-use App\Domain\Vote\Hash;
+use App\Domain\Vote\Url;
 use App\Domain\Vote\Identity;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;
@@ -31,7 +31,7 @@ class VoteCommandHandler
         try {
             $vote = new Vote(
                 Identity::fromString($command->getIdentity()),
-                Hash::fromString($command->getHash()),
+                Url::fromString($command->getUrl()),
                 Rate::fromInteger($command->getRate())
             );
         } catch (DomainException $exception) {

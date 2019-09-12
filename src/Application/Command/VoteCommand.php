@@ -8,20 +8,20 @@ class VoteCommand
     private $identity;
 
     /** @var string */
-    private $hash;
+    private $url;
 
     /** @var integer */
     private $rate;
 
     /**
      * @param string $identity
-     * @param string $hash
+     * @param string $url
      * @param int $rate
      */
-    public function __construct(string $identity, string $hash, int $rate)
+    public function __construct(string $identity, string $url, int $rate)
     {
         $this->identity = $identity;
-        $this->hash = $hash;
+        $this->url = $url;
         $this->rate = $rate;
     }
 
@@ -36,9 +36,9 @@ class VoteCommand
     /**
      * @return string
      */
-    public function getHash(): string
+    public function getUrl(): string
     {
-        return $this->hash;
+        return $this->url;
     }
 
     /**

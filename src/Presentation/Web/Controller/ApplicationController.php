@@ -32,9 +32,26 @@ class ApplicationController extends AbstractController
         $this->queryBus = $queryBus;
     }
 
-    public function ratingAction(string $identity): JsonResponse
+    public function ratingAction(Request $request): JsonResponse
     {
-        $query = new RatingQuery($identity);
+        $form = $this->createFormBuilder()
+            ->setMethod('GET')
+            ->add('url', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 255])
+                ],
+            ])
+            ->getForm();
+
+        $form->submit($request->query->all());
+
+        if (!$form->isValid()) {
+            return $this->json(["status" => "error"], 400);
+        }
+
+        $data = $form->getData();
+        $query = new RatingQuery($data['url']);
 
         try {
             $rating = $this->queryBus->handle($query);
@@ -48,10 +65,10 @@ class ApplicationController extends AbstractController
     public function voteAction(Request $request): JsonResponse
     {
         $form = $this->createFormBuilder()
-            ->add('hash', TextType::class, [
+            ->add('url', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['max' => 32])
+                    new Length(['max' => 255])
                 ],
             ])
             ->add('value', IntegerType::class, [
@@ -70,7 +87,7 @@ class ApplicationController extends AbstractController
         }
 
         $data = $form->getData();
-        $command = new VoteCommand(Uuid::uuid4()->toString(), $data['hash'], $data['value']);
+        $command = new VoteCommand(Uuid::uuid4()->toString(), $data['url'], $data['value']);
         $this->commandBus->handle($command);
 
         return $this->json(["status" => "created"], 201);

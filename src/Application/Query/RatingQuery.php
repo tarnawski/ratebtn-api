@@ -5,21 +5,21 @@ namespace App\Application\Query;
 class RatingQuery
 {
     /** @var string */
-    private $hash;
+    private $url;
 
     /**
-     * @param string $hash
+     * @param string $url
      */
-    public function __construct(string $hash)
+    public function __construct(string $url)
     {
-        $this->hash = $hash;
+        $this->url = $url;
     }
 
     /**
      * @return string
      */
-    public function getHash(): string
+    public function getUrl(): string
     {
-        return $this->hash;
+        return $this->url;
     }
 }

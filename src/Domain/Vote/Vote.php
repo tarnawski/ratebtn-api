@@ -7,16 +7,16 @@ class Vote
     /** @var Identity */
     private $identity;
 
-    /** @var Hash */
-    private $hash;
+    /** @var Url */
+    private $url;
 
     /** @var Rate */
     private $rate;
 
-    public function __construct(Identity $identity, Hash $hash, Rate $rate)
+    public function __construct(Identity $identity, Url $url, Rate $rate)
     {
         $this->identity = $identity;
-        $this->hash = $hash;
+        $this->url = $url;
         $this->rate = $rate;
     }
 
@@ -25,9 +25,9 @@ class Vote
         return $this->identity;
     }
 
-    public function getHash(): Hash
+    public function getUrl(): Url
     {
-        return $this->hash;
+        return $this->url;
     }
 
     public function getRate(): Rate

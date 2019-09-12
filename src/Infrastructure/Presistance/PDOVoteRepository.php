@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Presistance;
 
-use App\Domain\Vote\Hash;
+use App\Domain\Vote\Url;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
@@ -28,14 +28,16 @@ class PDOVoteRepository implements VoteRepositoryInterface
      */
     public function getByIdentity(Identity $identity): Vote
     {
-        $sth = $this->connection->prepare('SELECT * FROM `vote` WHERE `identity` = :identity');
-        $sth->bindValue(':hash', $identity->asString());
+        $sth = $this->connection->prepare(
+            'SELECT `identity`, `url`, `rate` FROM `vote` WHERE `identity` = :identity'
+        );
+        $sth->bindValue(':identity', $identity->asString());
         $sth->execute();
         $item = $sth->fetch();
 
         return new Vote(
             Identity::fromString($item['identity']),
-            Hash::fromString($item['hash']),
+            Url::fromString($item['url']),
             Rate::fromInteger((int)$item['rate'])
         );
     }
@@ -43,16 +45,18 @@ class PDOVoteRepository implements VoteRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getByHash(Hash $hash): VoteCollection
+    public function getByUrl(Url $url): VoteCollection
     {
-        $sth = $this->connection->prepare('SELECT * FROM `vote` WHERE `hash` = :hash');
-        $sth->bindValue(':hash', $hash->asString());
+        $sth = $this->connection->prepare(
+            'SELECT `identity`, `url`, `rate` FROM `vote` WHERE `url` = :url'
+        );
+        $sth->bindValue(':url', $url->asString());
         $sth->execute();
 
         $votes = array_map(function (array $item) {
             return new Vote(
                 Identity::fromString($item['identity']),
-                Hash::fromString($item['hash']),
+                Url::fromString($item['url']),
                 Rate::fromInteger((int)$item['rate'])
             );
         }, $sth->fetchAll());
@@ -66,10 +70,10 @@ class PDOVoteRepository implements VoteRepositoryInterface
     public function persist(Vote $vote): void
     {
         $sth = $this->connection->prepare(
-            'INSERT INTO `vote` (`identity`, `hash`, `rate`) VALUES(:identity, :hash, :rate)'
+            'INSERT INTO `vote` (`identity`, `url`, `rate`) VALUES(:identity, :url, :rate)'
         );
         $sth->bindValue(':identity', $vote->getIdentity()->asString());
-        $sth->bindValue(':hash', $vote->getHash()->asString());
+        $sth->bindValue(':url', $vote->getUrl()->asString());
         $sth->bindValue(':rate', $vote->getRate()->asInteger());
         $sth->execute();
     }
