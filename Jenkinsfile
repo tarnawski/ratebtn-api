@@ -9,6 +9,6 @@ node {
 		sh 'vendor/bin/phpcs --standard="PSR2" -n src/'
 	}
 	stage('Unit Tests') {
-		sh 'php vendor/bin/phpunit -c phpunit.xml.dist'
+		sh 'vendor/bin/phpunit -c phpunit.xml.dist'
 	}
 }
