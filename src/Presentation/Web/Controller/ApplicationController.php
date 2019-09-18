@@ -68,7 +68,7 @@ class ApplicationController extends AbstractController
             ->add('url', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['max' => 255])
+                    new Length(['min' => 5, 'max' => 255])
                 ],
             ])
             ->add('value', IntegerType::class, [

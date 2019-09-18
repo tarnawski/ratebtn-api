@@ -32,7 +32,7 @@ class RatingQueryHandler
         try {
             $url = Url::fromString($query->getUrl());
         } catch (DomainException $exception) {
-            throw new RetrieveVotesException('', 0, $exception);
+            throw new RetrieveVotesException('String is not valid url.', 0, $exception);
         }
 
         try {

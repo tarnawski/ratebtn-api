@@ -2,9 +2,7 @@
 
 namespace App\Infrastructure\Exception;
 
-use Exception;
-
-class PersistenceException extends Exception
+class NotFoundException extends PersistenceException
 {
 
 }

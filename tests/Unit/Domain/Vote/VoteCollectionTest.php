@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Domain\Vote;
+namespace App\Tests\Unit\Domain\Vote;
 
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;

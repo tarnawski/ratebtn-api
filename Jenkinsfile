@@ -9,6 +9,9 @@ node {
 		sh 'php73 vendor/bin/phpcs --standard="PSR2" -n src/'
 	}
 	stage('Unit Tests') {
-		sh 'php73 vendor/bin/phpunit -c phpunit.xml.dist'
+		sh 'php73 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=unit'
+	}
+	stage('Integration Tests') {
+		sh 'php73 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=integration'
 	}
 }
