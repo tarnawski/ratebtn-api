@@ -21,12 +21,16 @@ class Url
      */
     private function __construct(string $value)
     {
+        if (false === filter_var($value, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException(sprintf('Url "%s" is not valid.', $value));
+        }
+
         if (self::MIN_URL_LENGTH > strlen($value)) {
-            throw new InvalidArgumentException('Url is to short.');
+            throw new InvalidArgumentException(sprintf('Url "%s" is to short.', $value));
         }
 
         if (self::MAX_URL_LENGTH < strlen($value)) {
-            throw new InvalidArgumentException('Url is to long.');
+            throw new InvalidArgumentException(sprintf('Url "%s" is to long.', $value));
         }
 
         $this->value = $value;

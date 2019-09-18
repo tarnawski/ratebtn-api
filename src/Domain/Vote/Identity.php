@@ -19,7 +19,7 @@ class Identity
     private function __construct(string $value)
     {
         if (1 !== preg_match(self::UUID_PATTERN, $value)) {
-            throw new InvalidArgumentException('Identity is not valid UUID.');
+            throw new InvalidArgumentException(sprintf('Identity "%s" is not valid UUID.', $value));
         }
 
         $this->value = $value;
