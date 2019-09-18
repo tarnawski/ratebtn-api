@@ -35,12 +35,14 @@ class VoteCommandHandler
                 Rate::fromInteger($command->getRate())
             );
         } catch (DomainException $exception) {
+            return;
             //TODO handle business exception
         }
 
         try {
             $this->voteRepository->persist($vote);
         } catch (PersistenceException $exception) {
+            return;
             //TODO handle persistence exception
         }
     }

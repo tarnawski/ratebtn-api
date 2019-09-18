@@ -9,7 +9,10 @@ node {
 		parallel (
         	"Check PSR-2": {
 				sh 'php73 vendor/bin/phpcs --standard="PSR2" -n src/'
-        	}
+        	},
+        	"PHPStan": {
+				sh 'php73 vendor/bin/phpstan analyse src -l 5'
+			}
         )
 	}
 	stage('Unit Tests') {

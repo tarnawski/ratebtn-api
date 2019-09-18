@@ -11,7 +11,7 @@ class QueryBus
     private $queryHandlers = [];
 
     /**
-     * @param $queryHandler
+     * @param mixed $queryHandler
      * @throws ReflectionException
      */
     public function register($queryHandler)
