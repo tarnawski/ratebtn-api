@@ -33,5 +33,7 @@ services:
             $passwd: '%env(DATABASE_PASSWORD)%'
 
     App\Infrastructure\Persistence\PDOVoteRepository: ~
-
     App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDOVoteRepository'
+
+    App\Infrastructure\Calendar\SystemCalendar: ~
+    App\Domain\CalendarInterface: '@App\Infrastructure\Calendar\SystemCalendar'
