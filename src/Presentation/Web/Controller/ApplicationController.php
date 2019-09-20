@@ -7,10 +7,10 @@ use App\Application\Exception\RetrieveVotesException;
 use App\Application\Query\RatingQuery;
 use App\Application\ServiceBus\CommandBus;
 use App\Application\ServiceBus\QueryBus;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -47,7 +47,10 @@ class ApplicationController extends AbstractController
         $form->submit($request->query->all());
 
         if (!$form->isValid()) {
-            return $this->json(["status" => "error"], 400);
+            return $this->json([
+                "status" => "error",
+                "message" => $this->getFormErrorsAsArray($form)
+            ], 400);
         }
 
         $data = $form->getData();
@@ -83,13 +86,32 @@ class ApplicationController extends AbstractController
         $form->submit(json_decode($request->getContent(), true));
 
         if (!$form->isValid()) {
-            return $this->json(["status" => "error"], 400);
+            return $this->json([
+                "status" => "error",
+                "message" => $this->getFormErrorsAsArray($form)
+            ], 400);
         }
 
         $data = $form->getData();
-        $command = new VoteCommand(Uuid::uuid4()->toString(), $data['url'], $data['value']);
+        $command = new VoteCommand($data['url'], $data['value']);
         $this->commandBus->handle($command);
 
         return $this->json(["status" => "created"], 201);
+    }
+
+    private function getFormErrorsAsArray(FormInterface $form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors() as $key => $error) {
+            $errors[$key] = $error->getMessage();
+        }
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $key = $child->getName();
+                $errors[$key] = $this->getFormErrorsAsArray($child);
+            }
+        }
+
+        return $errors;
     }
 }

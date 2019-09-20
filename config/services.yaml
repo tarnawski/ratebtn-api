@@ -13,18 +13,6 @@ services:
         resource: '../src/Presentation/Web/Controller'
         tags: ['controller.service_arguments']
 
-    App\Application\Query\AlertQueryHandler: ~
-
-    App\Application\ServiceBus\QueryBus:
-        calls:
-            - [register, ['@App\Application\Query\RatingQueryHandler']]
-
-    App\Application\Command\VoteCommandHandler: ~
-
-    App\Application\ServiceBus\CommandBus:
-        calls:
-            - [register, ['@App\Application\Command\VoteCommandHandler']]
-
     PDO:
         class: PDO
         arguments:
@@ -35,5 +23,14 @@ services:
     App\Infrastructure\Persistence\PDOVoteRepository: ~
     App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDOVoteRepository'
 
-    App\Infrastructure\Calendar\SystemCalendar: ~
-    App\Domain\CalendarInterface: '@App\Infrastructure\Calendar\SystemCalendar'
+    App\Application\Query\AlertQueryHandler: ~
+
+    App\Application\ServiceBus\QueryBus:
+        calls:
+        - [register, ['@App\Application\Query\RatingQueryHandler']]
+
+    App\Application\Command\VoteCommandHandler: ~
+
+    App\Application\ServiceBus\CommandBus:
+        calls:
+        - [register, ['@App\Application\Command\VoteCommandHandler']]
