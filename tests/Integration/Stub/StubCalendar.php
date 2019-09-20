@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Calendar;
+namespace App\Tests\Integration\Stub;
 
 use App\Domain\CalendarInterface;
 use DateTimeImmutable;

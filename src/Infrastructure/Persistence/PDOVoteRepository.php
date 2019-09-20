@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Infrastructure\Presistance;
+namespace App\Infrastructure\Persistence;
 
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Rate;
@@ -36,7 +36,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'SELECT `identity`, `url`, `rate` FROM `vote` WHERE `identity` = :identity'
+                'SELECT `identity`, `url`, `rate`, `created_at` FROM `vote` WHERE `identity` = :identity'
             );
             $sth->bindValue(':identity', $identity->asString());
             $sth->execute();
@@ -60,7 +60,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'SELECT `identity`, `url`, `rate` FROM `vote` WHERE `url` = :url'
+                'SELECT `identity`, `url`, `rate`, `created_at` FROM `vote` WHERE `url` = :url'
             );
             $sth->bindValue(':url', $url->asString());
             $sth->execute();

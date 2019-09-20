@@ -2,10 +2,8 @@
 
 namespace App\Presentation\Cli\Command;
 
-use App\Application\Command\AddAlertCommand;
 use App\Application\Command\VoteCommand;
 use App\Application\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,7 +44,6 @@ class AddVoteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $command = new VoteCommand(
-            Uuid::uuid4()->toString(),
             (string) $input->getArgument('url'),
             (int) $input->getArgument('value')
         );

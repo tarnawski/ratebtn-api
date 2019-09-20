@@ -10,7 +10,7 @@ use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
-use App\Infrastructure\Presistance\InMemoryVoteRepository;
+use App\Infrastructure\Persistence\InMemoryVoteRepository;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
