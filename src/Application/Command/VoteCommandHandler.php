@@ -2,6 +2,7 @@
 
 namespace App\Application\Command;
 
+use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
 use App\Infrastructure\Exception\PersistenceException;
 use App\Domain\Vote\Url;
@@ -15,12 +16,17 @@ class VoteCommandHandler
     /** @var VoteRepositoryInterface */
     private $voteRepository;
 
+    /** @var CalendarInterface */
+    private $calendar;
+
     /**
      * @param VoteRepositoryInterface $voteRepository
+     * @param CalendarInterface $calendar
      */
-    public function __construct(VoteRepositoryInterface $voteRepository)
+    public function __construct(VoteRepositoryInterface $voteRepository, CalendarInterface $calendar)
     {
         $this->voteRepository = $voteRepository;
+        $this->calendar = $calendar;
     }
 
     /**
@@ -32,7 +38,8 @@ class VoteCommandHandler
             $vote = new Vote(
                 Identity::fromString($command->getIdentity()),
                 Url::fromString($command->getUrl()),
-                Rate::fromInteger($command->getRate())
+                Rate::fromInteger($command->getRate()),
+                $this->calendar->currentTime()
             );
         } catch (DomainException $exception) {
             return;

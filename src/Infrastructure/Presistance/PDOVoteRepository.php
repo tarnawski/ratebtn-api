@@ -9,11 +9,15 @@ use App\Domain\Vote\Identity;
 use App\Domain\Vote\VoteCollection;
 use App\Domain\VoteRepositoryInterface;
 use App\Infrastructure\Exception\PersistenceException;
+use DateTimeImmutable;
 use PDO;
 use PDOException;
 
 class PDOVoteRepository implements VoteRepositoryInterface
 {
+    /** @var string */
+    private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
     /** @var PDO */
     private $connection;
 
@@ -44,7 +48,8 @@ class PDOVoteRepository implements VoteRepositoryInterface
         return new Vote(
             Identity::fromString($result['identity']),
             Url::fromString($result['url']),
-            Rate::fromInteger((int)$result['rate'])
+            Rate::fromInteger((int)$result['rate']),
+            new DateTimeImmutable($result['created_at'])
         );
     }
 
@@ -68,7 +73,8 @@ class PDOVoteRepository implements VoteRepositoryInterface
             return new Vote(
                 Identity::fromString($item['identity']),
                 Url::fromString($item['url']),
-                Rate::fromInteger((int)$item['rate'])
+                Rate::fromInteger((int)$item['rate']),
+                new DateTimeImmutable($item['created_at'])
             );
         }, $results);
 
@@ -82,11 +88,12 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'INSERT INTO `vote` (`identity`, `url`, `rate`) VALUES(:identity, :url, :rate)'
+                'INSERT INTO `vote` (`identity`, `url`, `rate`, `created_at`) VALUES(:identity, :url, :rate, :created_at)'
             );
             $sth->bindValue(':identity', $vote->getIdentity()->asString());
             $sth->bindValue(':url', $vote->getUrl()->asString());
             $sth->bindValue(':rate', $vote->getRate()->asInteger());
+            $sth->bindValue(':created_at', $vote->getCreateAt()->format(self::DATE_TIME_FORMAT));
             $sth->execute();
         } catch (PDOException $exception) {
             throw new PersistenceException('Failed to save vote.', 0, $exception);
