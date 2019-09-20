@@ -12,7 +12,7 @@ use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;
 use App\Domain\VoteRepositoryInterface;
 
-class VoteCommandHandler
+class CreateVoteCommandHandler
 {
     /** @var VoteRepositoryInterface */
     private $voteRepository;
@@ -39,9 +39,9 @@ class VoteCommandHandler
     }
 
     /**
-     * @param VoteCommand $command
+     * @param CreateVoteCommand $command
      */
-    public function handle(VoteCommand $command): void
+    public function handle(CreateVoteCommand $command): void
     {
         try {
             $vote = new Vote(

@@ -29,8 +29,8 @@ services:
         calls:
         - [register, ['@App\Application\Query\RatingQueryHandler']]
 
-    App\Application\Command\VoteCommandHandler: ~
+    App\Application\Command\CreateVoteCommandHandler: ~
 
     App\Application\ServiceBus\CommandBus:
         calls:
-        - [register, ['@App\Application\Command\VoteCommandHandler']]
+        - [register, ['@App\Application\Command\CreateVoteCommandHandler']]

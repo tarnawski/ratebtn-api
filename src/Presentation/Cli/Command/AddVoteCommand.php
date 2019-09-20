@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Cli\Command;
 
-use App\Application\Command\VoteCommand;
+use App\Application\Command\CreateVoteCommand;
 use App\Application\ServiceBus\CommandBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,7 +43,7 @@ class AddVoteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $command = new VoteCommand(
+        $command = new CreateVoteCommand(
             (string) $input->getArgument('url'),
             (int) $input->getArgument('value')
         );

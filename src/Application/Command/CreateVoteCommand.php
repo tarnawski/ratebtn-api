@@ -2,7 +2,7 @@
 
 namespace App\Application\Command;
 
-class VoteCommand
+class CreateVoteCommand
 {
     /** @var string */
     private $url;

@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Web\Controller;
 
-use App\Application\Command\VoteCommand;
+use App\Application\Command\CreateVoteCommand;
 use App\Application\Exception\RetrieveVotesException;
 use App\Application\Query\RatingQuery;
 use App\Application\ServiceBus\CommandBus;
@@ -93,7 +93,7 @@ class ApplicationController extends AbstractController
         }
 
         $data = $form->getData();
-        $command = new VoteCommand($data['url'], $data['value']);
+        $command = new CreateVoteCommand($data['url'], $data['value']);
         $this->commandBus->handle($command);
 
         return $this->json(["status" => "created"], 201);

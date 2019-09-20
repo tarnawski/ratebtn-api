@@ -3,8 +3,8 @@
 namespace App\Tests\Functional;
 
 use App\Domain\Vote\Identity;
-use App\Application\Command\VoteCommand;
-use App\Application\Command\VoteCommandHandler;
+use App\Application\Command\CreateVoteCommand;
+use App\Application\Command\CreateVoteCommandHandler;
 use App\Application\ServiceBus\CommandBus;
 use App\Infrastructure\Persistence\InMemoryVoteRepository;
 use App\Tests\Integration\Stub\StubCalendar;
@@ -20,12 +20,12 @@ class VoteTest extends TestCase
         $calendar = new StubCalendar(new DateTimeImmutable('2019-06-17 18:24:21'));
         $uuidProvider = new StubUuidProvider('1c46e9ed-d03a-4103-a3f2-2504c1f0052c');
 
-        $voteCommandHandler = new VoteCommandHandler($voteRepository, $uuidProvider, $calendar);
+        $voteCommandHandler = new CreateVoteCommandHandler($voteRepository, $uuidProvider, $calendar);
 
         $commandBus = new CommandBus();
         $commandBus->register($voteCommandHandler);
 
-        $voteCommand = new VoteCommand('http://www.example.com', 3);
+        $voteCommand = new CreateVoteCommand('http://www.example.com', 3);
         $commandBus->handle($voteCommand);
 
         $result = $voteRepository->getByIdentity(Identity::fromString('1c46e9ed-d03a-4103-a3f2-2504c1f0052c'));
