@@ -11,7 +11,7 @@ use App\Infrastructure\Exception\NotFoundException;
 
 class InMemoryVoteRepository implements VoteRepositoryInterface
 {
-    /** @var array */
+    /** @var Vote[]  */
     public $votes = [];
 
     /**
