@@ -28,14 +28,14 @@ paths:
                   version:
                     type: string
                     example: "1.0.0"
-  /rating:
+  /votes:
     get:
       tags:
-        - Rating
-      summary: Get rating information for site.
+        - Votes
+      summary: Get votes information for site.
       responses:
         '200':
-          description: A JSON array with rating data.
+          description: A JSON array with votes information.
           content:
             application/json:
               schema:
@@ -59,10 +59,9 @@ paths:
                     example: "fail"
                   errors:
                     type: object
-  /vote:
     post:
       tags:
-        - Vote
+        - Votes
       summary: Create new vote for site.
       requestBody:
         required: true
@@ -100,4 +99,3 @@ paths:
                     example: "fail"
                   errors:
                     type: object
-                      

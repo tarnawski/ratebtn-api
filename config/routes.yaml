@@ -6,12 +6,12 @@ specification:
     path: /specification
     controller: App\Presentation\Web\Controller\ApplicationController::specificationAction
 
-rating:
-    path: /rating
-    controller: App\Presentation\Web\Controller\ApplicationController::ratingAction
+show:
+    path: /votes
+    controller: App\Presentation\Web\Controller\VoteController::showAction
     methods: [GET]
 
-vote:
-    path: /vote
-    controller: App\Presentation\Web\Controller\ApplicationController::voteAction
+create:
+    path: /votes
+    controller: App\Presentation\Web\Controller\VoteController::createAction
     methods: [POST]
