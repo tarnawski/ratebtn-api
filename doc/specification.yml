@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://api.ratebtn.ttarnawski.usermd.net
+  - url: https://api.ratebtn.ttarnawski.usermd.net
     description: Production server
 
 paths:
@@ -34,7 +34,7 @@ paths:
         - Votes
       summary: Get votes information for site.
       parameters:
-        - in: path
+        - in: query
           name: url
           description: Url adress of site.
           required: true
