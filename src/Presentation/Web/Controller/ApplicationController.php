@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Yaml\Yaml;
 
 class ApplicationController extends AbstractController
 {
@@ -30,6 +31,19 @@ class ApplicationController extends AbstractController
     {
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;
+    }
+
+    public function statusAction(): JsonResponse
+    {
+        return $this->json(["status" => "operational", "version" => "1.0.0"], 200);
+    }
+
+    public function specificationAction(): JsonResponse
+    {
+        $rootDir = $this->getParameter('kernel.root_dir');
+        $specificationPath = sprintf('%s/../doc/specification.yml', $rootDir);
+
+        return $this->json(Yaml::parseFile($specificationPath));
     }
 
     public function ratingAction(Request $request): JsonResponse
@@ -48,8 +62,8 @@ class ApplicationController extends AbstractController
 
         if (!$form->isValid()) {
             return $this->json([
-                "status" => "error",
-                "message" => $this->getFormErrorsAsArray($form)
+                "status" => "fail",
+                "errors" => $this->getFormErrorsAsArray($form)
             ], 400);
         }
 
@@ -87,7 +101,7 @@ class ApplicationController extends AbstractController
 
         if (!$form->isValid()) {
             return $this->json([
-                "status" => "error",
+                "errors" => "fail",
                 "message" => $this->getFormErrorsAsArray($form)
             ], 400);
         }
@@ -96,7 +110,7 @@ class ApplicationController extends AbstractController
         $command = new CreateVoteCommand($data['url'], $data['value']);
         $this->commandBus->handle($command);
 
-        return $this->json(["status" => "created"], 201);
+        return $this->json(["status" => "success"], 201);
     }
 
     private function getFormErrorsAsArray(FormInterface $form): array

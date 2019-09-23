@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: RateBtn API
+  description: Specification for RateBtn API
+  version: 1.0.0
+
+servers:
+  - url: http://api.ratebtn.ttarnawski.usermd.net
+    description: Production server
+
+paths:
+  /status:
+    get:
+      tags:
+        - Status
+      summary: Return status and version of API.
+      responses:
+        '200':
+          description: A JSON array with application status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "operational"
+                  version:
+                    type: string
+                    example: "1.0.0"
+  /rating:
+    get:
+      tags:
+        - Rating
+      summary: Get rating information for site.
+      responses:
+        '200':
+          description: A JSON array with rating data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 3
+                  average:
+                    type: number
+                    example: 4.56
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "fail"
+                  errors:
+                    type: object
+  /vote:
+    post:
+      tags:
+        - Vote
+      summary: Create new vote for site.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: "www.example.com"
+                vote:
+                  type: integer
+                  example: 5
+      responses:
+        '200':
+          description: A JSON array with new application data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "fail"
+                  errors:
+                    type: object
+                      

@@ -1,3 +1,11 @@
+status:
+    path: /
+    controller: App\Presentation\Web\Controller\ApplicationController::statusAction
+
+specification:
+    path: /specification
+    controller: App\Presentation\Web\Controller\ApplicationController::specificationAction
+
 rating:
     path: /rating
     controller: App\Presentation\Web\Controller\ApplicationController::ratingAction
