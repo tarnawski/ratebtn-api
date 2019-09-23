@@ -81,7 +81,7 @@ paths:
                 url:
                   type: string
                   example: "http://www.example.com"
-                vote:
+                value:
                   type: integer
                   example: 5
       responses:
