@@ -2,7 +2,7 @@
 A zero-configuration rate button for website
 
 ### Website
-[www.ratebtn.ttarnawski.usermd.net](http://www.ratebtn.ttarnawski.usermd.net/)
+[ratebtn.ttarnawski.usermd.net](http://www.ratebtn.ttarnawski.usermd.net/)
 
 ### Documentation
 [api.ratebtn.ttarnawski.usermd.net/specification](https://petstore.swagger.io/?url=https://api.ratebtn.ttarnawski.usermd.net/specification)

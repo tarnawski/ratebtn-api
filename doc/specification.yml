@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: RateBtn API
-  description: Specification for RateBtn API
+  description: Specification for RateBtn API.
   version: 1.0.0
 
 servers:
@@ -33,6 +33,14 @@ paths:
       tags:
         - Votes
       summary: Get votes information for site.
+      parameters:
+        - in: path
+          name: url
+          description: Url adress of site.
+          required: true
+          schema:
+            type: string
+            example: www.example.com
       responses:
         '200':
           description: A JSON array with votes information.
