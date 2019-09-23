@@ -40,7 +40,7 @@ paths:
           required: true
           schema:
             type: string
-            example: www.example.com
+            example: "http://www.example.com"
       responses:
         '200':
           description: A JSON array with votes information.
@@ -80,7 +80,7 @@ paths:
               properties:
                 url:
                   type: string
-                  example: "www.example.com"
+                  example: "http://www.example.com"
                 vote:
                   type: integer
                   example: 5
