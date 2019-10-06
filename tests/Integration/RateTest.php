@@ -5,7 +5,7 @@ namespace App\Tests\Functional;
 use App\Application\DTO\Rating;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
-use App\Application\ServiceBus\QueryBus;
+use App\Infrastructure\ServiceBus\ProophQueryBus;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
@@ -40,7 +40,7 @@ class RateTest extends TestCase
         ]);
         $ratingQueryHandler = new RatingQueryHandler($voteRepository);
 
-        $queryBus = new QueryBus();
+        $queryBus = new ProophQueryBus();
         $queryBus->register($ratingQueryHandler);
 
         $ratingQuery = new RatingQuery('http://www.example.com');

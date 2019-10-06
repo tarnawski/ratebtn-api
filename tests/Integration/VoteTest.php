@@ -5,7 +5,7 @@ namespace App\Tests\Functional;
 use App\Domain\Vote\Identity;
 use App\Application\Command\CreateVoteCommand;
 use App\Application\Command\CreateVoteCommandHandler;
-use App\Application\ServiceBus\CommandBus;
+use App\Infrastructure\ServiceBus\CommandBus;
 use App\Infrastructure\Persistence\InMemoryVoteRepository;
 use App\Tests\Integration\Stub\StubCalendar;
 use App\Tests\Integration\Stub\StubUuidProvider;

@@ -25,12 +25,15 @@ services:
 
     App\Application\Query\AlertQueryHandler: ~
 
-    App\Application\ServiceBus\QueryBus:
+    App\Infrastructure\ServiceBus\ProophQueryBus:
         calls:
         - [register, ['@App\Application\Query\RatingQueryHandler']]
 
     App\Application\Command\CreateVoteCommandHandler: ~
 
-    App\Application\ServiceBus\CommandBus:
+    App\Infrastructure\ServiceBus\ProophCommandBus:
         calls:
         - [register, ['@App\Application\Command\CreateVoteCommandHandler']]
+
+    Prooph\ServiceBus\CommandBus: ~
+    Prooph\ServiceBus\QueryBus: ~
