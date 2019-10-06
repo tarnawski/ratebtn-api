@@ -3,6 +3,7 @@
 namespace App\Infrastructure\ServiceBus;
 
 use App\Application\QueryBusInterface;
+use App\Infrastructure\ServiceBus\Adapter\QueryHandlerAdapter;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
@@ -15,6 +16,10 @@ class SymfonyQueryBus implements QueryBusInterface
 
     public function __construct($mapping)
     {
+        $mapping = array_map(function ($handler) {
+            return [new QueryHandlerAdapter($handler)];
+        }, $mapping);
+
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 

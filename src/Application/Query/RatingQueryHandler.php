@@ -27,7 +27,7 @@ class RatingQueryHandler
      * @return Rating
      * @throws RetrieveVotesException
      */
-    public function __invoke(RatingQuery $query): Rating
+    public function handle(RatingQuery $query): Rating
     {
         try {
             $url = Url::fromString($query->getUrl());
