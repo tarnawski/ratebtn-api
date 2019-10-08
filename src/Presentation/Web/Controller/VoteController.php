@@ -3,10 +3,10 @@
 namespace App\Presentation\Web\Controller;
 
 use App\Application\Command\CreateVoteCommand;
+use App\Application\CommandBusInterface;
 use App\Application\Exception\RetrieveVotesException;
 use App\Application\Query\RatingQuery;
 use App\Application\QueryBusInterface;
-use App\Application\ServiceBus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,13 +20,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VoteController extends AbstractController
 {
-    /** @var CommandBus */
+    /** @var CommandBusInterface */
     private $commandBus;
 
     /** @var QueryBusInterface */
     private $queryBus;
 
-    public function __construct(CommandBus $commandBus, QueryBusInterface $queryBus)
+    public function __construct(CommandBusInterface $commandBus, QueryBusInterface $queryBus)
     {
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;

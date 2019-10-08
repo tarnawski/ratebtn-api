@@ -3,7 +3,7 @@
 namespace App\Presentation\Cli\Command;
 
 use App\Application\Command\CreateVoteCommand;
-use App\Application\ServiceBus\CommandBus;
+use App\Application\CommandBusInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,13 +14,13 @@ class AddVoteCommand extends Command
     /** @var string */
     protected static $defaultName = 'app:vote-add';
 
-    /** @var CommandBus */
+    /** @var CommandBusInterface */
     private $commandBus;
 
     /**
-     * @param CommandBus $commandBus
+     * @param CommandBusInterface $commandBus
      */
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CommandBusInterface $commandBus)
     {
         parent::__construct();
         $this->commandBus = $commandBus;

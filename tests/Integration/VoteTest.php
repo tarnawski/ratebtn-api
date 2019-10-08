@@ -5,8 +5,8 @@ namespace App\Tests\Functional;
 use App\Domain\Vote\Identity;
 use App\Application\Command\CreateVoteCommand;
 use App\Application\Command\CreateVoteCommandHandler;
-use App\Application\ServiceBus\CommandBus;
 use App\Infrastructure\Persistence\InMemoryVoteRepository;
+use App\Infrastructure\ServiceBus\SymfonyCommandBus;
 use App\Tests\Integration\Stub\StubCalendar;
 use App\Tests\Integration\Stub\StubUuidProvider;
 use PHPUnit\Framework\TestCase;
@@ -21,10 +21,9 @@ class VoteTest extends TestCase
         $uuidProvider = new StubUuidProvider('1c46e9ed-d03a-4103-a3f2-2504c1f0052c');
 
         $voteCommandHandler = new CreateVoteCommandHandler($voteRepository, $uuidProvider, $calendar);
-
-        $commandBus = new CommandBus();
-        $commandBus->register($voteCommandHandler);
-
+        $commandBus = new SymfonyCommandBus([
+            CreateVoteCommand::class => $voteCommandHandler
+        ]);
         $voteCommand = new CreateVoteCommand('http://www.example.com', 3);
         $commandBus->handle($voteCommand);
 

@@ -30,8 +30,9 @@ services:
 
     App\Application\QueryBusInterface: '@App\Infrastructure\ServiceBus\SymfonyQueryBus'
 
-    App\Application\Command\CreateVoteCommandHandler: ~
+    App\Infrastructure\ServiceBus\SymfonyCommandBus:
+        arguments:
+            $mapping:
+                'App\Application\Command\CreateVoteCommand': '@App\Application\Command\CreateVoteCommandHandler'
 
-    App\Application\ServiceBus\CommandBus:
-        calls:
-        - [register, ['@App\Application\Command\CreateVoteCommandHandler']]
+    App\Application\CommandBusInterface: '@App\Infrastructure\ServiceBus\SymfonyCommandBus'

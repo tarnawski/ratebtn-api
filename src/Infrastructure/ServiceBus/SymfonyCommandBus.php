@@ -2,14 +2,13 @@
 
 namespace App\Infrastructure\ServiceBus;
 
-use App\Application\QueryBusInterface;
-use App\Infrastructure\ServiceBus\Adapter\QueryHandlerAdapter;
+use App\Application\CommandBusInterface;
+use App\Infrastructure\ServiceBus\Adapter\CommandHandlerAdapter;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
 
-class SymfonyQueryBus implements QueryBusInterface
+class SymfonyCommandBus implements CommandBusInterface
 {
     /** @var MessageBus */
     private $bus;
@@ -20,21 +19,17 @@ class SymfonyQueryBus implements QueryBusInterface
     public function __construct(array $mapping)
     {
         $mapping = array_map(function ($handler) {
-            return [new QueryHandlerAdapter($handler)];
+            return [new CommandHandlerAdapter($handler)];
         }, $mapping);
 
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 
     /**
-     * @param mixed $query
-     * @return mixed
+     * @param mixed $command
      */
-    public function handle($query)
+    public function handle($command): void
     {
-        /** @var HandledStamp $stamp */
-        $stamp = $this->bus->dispatch($query)->last(HandledStamp::class);
-
-        return $stamp->getResult();
+        $this->bus->dispatch($command);
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Infrastructure\ServiceBus\Adapter;
 
 /**
- * Use to adapt Symfony Messenger component to query handlers
+ * Use to adapt Symfony Messenger component to command handlers
  */
-class QueryHandlerAdapter
+class CommandHandlerAdapter
 {
     private $handler;
 
@@ -17,8 +17,8 @@ class QueryHandlerAdapter
         $this->handler = $handler;
     }
 
-    public function __invoke($query)
+    public function __invoke($command)
     {
-        return $this->handler->handle($query);
+        return $this->handler->handle($command);
     }
 }
