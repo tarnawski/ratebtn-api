@@ -23,11 +23,12 @@ services:
     App\Infrastructure\Persistence\PDOVoteRepository: ~
     App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDOVoteRepository'
 
-    App\Application\Query\AlertQueryHandler: ~
+    App\Infrastructure\ServiceBus\SymfonyQueryBus:
+        arguments:
+            $mapping:
+                'App\Application\Query\RatingQuery': '@App\Application\Query\RatingQueryHandler'
 
-    App\Application\ServiceBus\QueryBus:
-        calls:
-        - [register, ['@App\Application\Query\RatingQueryHandler']]
+    App\Application\QueryBusInterface: '@App\Infrastructure\ServiceBus\SymfonyQueryBus'
 
     App\Application\Command\CreateVoteCommandHandler: ~
 
