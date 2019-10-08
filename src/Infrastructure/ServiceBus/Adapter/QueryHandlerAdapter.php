@@ -7,7 +7,7 @@ class QueryHandlerAdapter
     private $handler;
 
     /**
-     * @param $handler
+     * @param mixed $handler
      */
     public function __construct($handler)
     {

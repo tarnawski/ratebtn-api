@@ -5,12 +5,12 @@ namespace App\Tests\Functional;
 use App\Application\DTO\Rating;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
-use App\Application\ServiceBus\QueryBus;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
 use App\Infrastructure\Persistence\InMemoryVoteRepository;
+use App\Infrastructure\ServiceBus\SymfonyQueryBus;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
@@ -38,10 +38,10 @@ class RateTest extends TestCase
                 new DateTimeImmutable('2019-06-17 18:24:21')
             )
         ]);
-        $ratingQueryHandler = new RatingQueryHandler($voteRepository);
 
-        $queryBus = new QueryBus();
-        $queryBus->register($ratingQueryHandler);
+        $queryBus = new SymfonyQueryBus([
+            RatingQuery::class => new RatingQueryHandler($voteRepository)
+        ]);
 
         $ratingQuery = new RatingQuery('http://www.example.com');
         $result = $queryBus->handle($ratingQuery);
