@@ -2,6 +2,7 @@
 
 namespace App\Application\Command;
 
+use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\UuidProviderInterface;
@@ -23,19 +24,25 @@ class CreateVoteCommandHandler
     /** @var CalendarInterface */
     private $calendar;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * @param VoteRepositoryInterface $voteRepository
      * @param UuidProviderInterface $uuidProvider
      * @param CalendarInterface $calendar
+     * @param LoggerInterface $logger
      */
     public function __construct(
         VoteRepositoryInterface $voteRepository,
         UuidProviderInterface $uuidProvider,
-        CalendarInterface $calendar
+        CalendarInterface $calendar,
+        LoggerInterface $logger
     ) {
         $this->voteRepository = $voteRepository;
         $this->uuidProvider = $uuidProvider;
         $this->calendar = $calendar;
+        $this->logger = $logger;
     }
 
     /**
@@ -61,5 +68,10 @@ class CreateVoteCommandHandler
             return;
             //TODO handle persistence exception
         }
+
+        $this->logger->log(LoggerInterface::NOTICE, 'Vote was successfully created.', [
+            'id' => $vote->getIdentity()->asString(),
+            'url' => $vote->getUrl()->asString()
+        ]);
     }
 }
