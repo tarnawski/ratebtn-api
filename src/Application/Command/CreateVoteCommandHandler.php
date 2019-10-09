@@ -2,6 +2,8 @@
 
 namespace App\Application\Command;
 
+use App\Application\Exception\SaveVoteException;
+use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\UuidProviderInterface;
@@ -23,23 +25,30 @@ class CreateVoteCommandHandler
     /** @var CalendarInterface */
     private $calendar;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * @param VoteRepositoryInterface $voteRepository
      * @param UuidProviderInterface $uuidProvider
      * @param CalendarInterface $calendar
+     * @param LoggerInterface $logger
      */
     public function __construct(
         VoteRepositoryInterface $voteRepository,
         UuidProviderInterface $uuidProvider,
-        CalendarInterface $calendar
+        CalendarInterface $calendar,
+        LoggerInterface $logger
     ) {
         $this->voteRepository = $voteRepository;
         $this->uuidProvider = $uuidProvider;
         $this->calendar = $calendar;
+        $this->logger = $logger;
     }
 
     /**
      * @param CreateVoteCommand $command
+     * @throws SaveVoteException
      */
     public function handle(CreateVoteCommand $command): void
     {
@@ -51,15 +60,20 @@ class CreateVoteCommandHandler
                 $this->calendar->currentTime()
             );
         } catch (DomainException $exception) {
-            return;
-            //TODO handle business exception
+            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
+            throw new SaveVoteException('Create vote failed.');
         }
 
         try {
             $this->voteRepository->persist($vote);
         } catch (PersistenceException $exception) {
-            return;
-            //TODO handle persistence exception
+            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
+            throw new SaveVoteException('Save vote failed.');
         }
+
+        $this->logger->log(LoggerInterface::NOTICE, 'Vote was successfully created.', [
+            'id' => $vote->getIdentity()->asString(),
+            'url' => $vote->getUrl()->asString()
+        ]);
     }
 }

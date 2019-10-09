@@ -5,6 +5,7 @@
 /.env.*.local
 /var/
 /vendor/
+/logs/
 ###< symfony/framework-bundle ###
 ###> phpunit/phpunit ###
 /phpunit.xml

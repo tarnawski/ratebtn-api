@@ -2,13 +2,14 @@
 
 namespace App\Tests\Functional;
 
-use App\Application\DTO\Rating;
+use App\Application\Rating;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
+use App\Infrastructure\Logger\InMemoryLogger;
 use App\Infrastructure\Persistence\InMemoryVoteRepository;
 use App\Infrastructure\ServiceBus\SymfonyQueryBus;
 use DateTimeImmutable;
@@ -40,7 +41,7 @@ class RateTest extends TestCase
         ]);
 
         $queryBus = new SymfonyQueryBus([
-            RatingQuery::class => new RatingQueryHandler($voteRepository)
+            RatingQuery::class => new RatingQueryHandler($voteRepository, new InMemoryLogger())
         ]);
 
         $ratingQuery = new RatingQuery('http://www.example.com');

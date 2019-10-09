@@ -36,6 +36,11 @@ class Url
         $this->value = $value;
     }
 
+    /**
+     * @param string $value
+     * @return static
+     * @throws InvalidArgumentException
+     */
     public static function fromString(string $value): self
     {
         return new self($value);

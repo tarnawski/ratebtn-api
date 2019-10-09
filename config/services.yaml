@@ -36,3 +36,10 @@ services:
                 'App\Application\Command\CreateVoteCommand': '@App\Application\Command\CreateVoteCommandHandler'
 
     App\Application\CommandBusInterface: '@App\Infrastructure\ServiceBus\SymfonyCommandBus'
+
+    # Logger
+    App\Infrastructure\Logger\MonologLogger:
+        arguments:
+            $name: 'APPLICATION'
+            $path: '%kernel.project_dir%/%env(LOG_DIRECTORY)%/%kernel.environment%.log'
+    App\Application\LoggerInterface: '@App\Infrastructure\Logger\MonologLogger'
