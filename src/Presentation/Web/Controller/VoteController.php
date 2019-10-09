@@ -4,7 +4,7 @@ namespace App\Presentation\Web\Controller;
 
 use App\Application\Command\CreateVoteCommand;
 use App\Application\CommandBusInterface;
-use App\Application\Exception\RetrieveVotesException;
+use App\Application\Exception\RetrieveRateException;
 use App\Application\Exception\SaveVoteException;
 use App\Application\Query\RatingQuery;
 use App\Application\QueryBusInterface;
@@ -59,7 +59,7 @@ class VoteController extends AbstractController
 
         try {
             $rating = $this->queryBus->handle($query);
-        } catch (RetrieveVotesException $exception) {
+        } catch (RetrieveRateException $exception) {
             return $this->json(["status" => "error"], 500);
         }
 

@@ -2,7 +2,7 @@
 
 namespace App\Application\Query;
 
-use App\Application\Exception\RetrieveVotesException;
+use App\Application\Exception\RetrieveRateException;
 use App\Application\LoggerInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\Vote\Url;
@@ -31,7 +31,7 @@ class RatingQueryHandler
     /**
      * @param RatingQuery $query
      * @return Rating
-     * @throws RetrieveVotesException
+     * @throws RetrieveRateException
      */
     public function handle(RatingQuery $query): Rating
     {
@@ -39,14 +39,14 @@ class RatingQueryHandler
             $url = Url::fromString($query->getUrl());
         } catch (DomainException $exception) {
             $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
-            throw new RetrieveVotesException('String is not valid url.', 0, $exception);
+            throw new RetrieveRateException('String is not valid url.', 0, $exception);
         }
 
         try {
             $votes = $this->voteRepository->getByUrl($url);
         } catch (PersistenceException $exception) {
             $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
-            throw new RetrieveVotesException('Failed to fetch vote by url.', 0, $exception);
+            throw new RetrieveRateException('Failed to fetch vote by url.', 0, $exception);
         }
 
         return new Rating($votes->getNumberOfVotes(), $votes->calculateAverageOfVotes());
