@@ -2,6 +2,7 @@
 
 namespace App\Application\Command;
 
+use App\Application\Exception\SaveVoteException;
 use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
@@ -47,6 +48,7 @@ class CreateVoteCommandHandler
 
     /**
      * @param CreateVoteCommand $command
+     * @throws SaveVoteException
      */
     public function handle(CreateVoteCommand $command): void
     {
@@ -58,15 +60,15 @@ class CreateVoteCommandHandler
                 $this->calendar->currentTime()
             );
         } catch (DomainException $exception) {
-            return;
-            //TODO handle business exception
+            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
+            throw new SaveVoteException('Create vote failed.');
         }
 
         try {
             $this->voteRepository->persist($vote);
         } catch (PersistenceException $exception) {
-            return;
-            //TODO handle persistence exception
+            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
+            throw new SaveVoteException('Save vote failed.');
         }
 
         $this->logger->log(LoggerInterface::NOTICE, 'Vote was successfully created.', [

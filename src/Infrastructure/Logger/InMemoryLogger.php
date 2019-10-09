@@ -12,7 +12,7 @@ class InMemoryLogger implements LoggerInterface
     /**
      * @param array $logs
      */
-    public function __construct(array $logs)
+    public function __construct(array $logs = [])
     {
         $this->logs = $logs;
     }
@@ -20,5 +20,10 @@ class InMemoryLogger implements LoggerInterface
     public function log(int $level, string $message, array $context = []): void
     {
         $this->logs[] = [$level, $message, $context];
+    }
+
+    public function getLogs(): array
+    {
+        return $this->logs;
     }
 }
