@@ -2,7 +2,7 @@
 
 namespace App\Tests\Functional;
 
-use App\Application\Rating;
+use App\Application\RatingResponse;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
 use App\Domain\Vote\Rate;
@@ -47,7 +47,7 @@ class RateTest extends TestCase
         $ratingQuery = new RatingQuery('http://www.example.com');
         $result = $queryBus->handle($ratingQuery);
 
-        $this->assertInstanceOf(Rating::class, $result);
+        $this->assertInstanceOf(RatingResponse::class, $result);
         $this->assertEquals(2, $result->toArray()['count']);
         $this->assertEquals(3.5, $result->toArray()['average']);
     }

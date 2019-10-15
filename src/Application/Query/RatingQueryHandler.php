@@ -7,7 +7,7 @@ use App\Application\LoggerInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\Vote\Url;
 use App\Domain\VoteRepositoryInterface;
-use App\Application\Rating;
+use App\Application\RatingResponse;
 use App\Infrastructure\Exception\PersistenceException;
 
 class RatingQueryHandler
@@ -30,10 +30,10 @@ class RatingQueryHandler
 
     /**
      * @param RatingQuery $query
-     * @return Rating
+     * @return RatingResponse
      * @throws RetrieveRateException
      */
-    public function handle(RatingQuery $query): Rating
+    public function handle(RatingQuery $query): RatingResponse
     {
         try {
             $url = Url::fromString($query->getUrl());
@@ -49,6 +49,6 @@ class RatingQueryHandler
             throw new RetrieveRateException('Failed to fetch vote by url.', 0, $exception);
         }
 
-        return new Rating($votes->getNumberOfVotes(), $votes->calculateAverageOfVotes());
+        return new RatingResponse($votes->getNumberOfVotes(), $votes->calculateAverageOfVotes());
     }
 }

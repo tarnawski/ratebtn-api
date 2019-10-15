@@ -2,7 +2,7 @@
 
 namespace App\Application;
 
-class Rating
+class RatingResponse
 {
     /** @var integer */
     private $count;
