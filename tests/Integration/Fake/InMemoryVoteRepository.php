@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence;
+namespace App\Tests\Integration\Fake;
 
 use App\Domain\Vote\Identity;
 use App\Domain\Vote\Url;

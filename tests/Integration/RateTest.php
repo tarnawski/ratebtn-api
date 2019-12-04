@@ -10,8 +10,8 @@ use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
 use App\Infrastructure\Logger\InMemoryLogger;
-use App\Infrastructure\Persistence\InMemoryVoteRepository;
 use App\Infrastructure\ServiceBus\SymfonyQueryBus;
+use App\Tests\Integration\Fake\InMemoryVoteRepository;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
