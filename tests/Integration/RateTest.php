@@ -7,6 +7,7 @@ namespace App\Tests\Functional;
 use App\Application\RatingResponse;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
+use App\Domain\Vote\Fingerprint;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Vote;
@@ -26,18 +27,21 @@ class RateTest extends TestCase
                 Identity::fromString('1c46e9ed-d03a-4103-a3f2-2504c1f0052c'),
                 Url::fromString('http://www.example.com'),
                 Rate::fromInteger(3),
+                Fingerprint::fromString('1c46e9ed'),
                 new DateTimeImmutable('2019-06-17 18:24:21')
             ),
             new Vote(
                 Identity::fromString('9af43775-cfd3-4276-86dd-d6c30a7511e3'),
                 Url::fromString('http://www.example.com'),
                 Rate::fromInteger(4),
+                Fingerprint::fromString('d6c30a7511e3'),
                 new DateTimeImmutable('2019-06-17 18:24:21')
             ),
             new Vote(
                 Identity::fromString('25f653ff-6947-40a3-afa4-f4ce13a65e2a'),
                 Url::fromString('http://www.site.com'),
                 Rate::fromInteger(2),
+                Fingerprint::fromString('25f653ff'),
                 new DateTimeImmutable('2019-06-17 18:24:21')
             )
         ]);

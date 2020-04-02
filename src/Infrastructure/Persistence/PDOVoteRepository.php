@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence;
 
+use App\Domain\Vote\Fingerprint;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;
@@ -30,7 +31,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'SELECT `identity`, `url`, `rate`, `created_at` FROM `vote` WHERE `identity` = :identity'
+                'SELECT `identity`, `url`, `rate`, `fingerprint`, `created_at` FROM `vote` WHERE `identity` = :identity'
             );
             $sth->bindValue(':identity', $identity->asString());
             $sth->execute();
@@ -43,7 +44,8 @@ class PDOVoteRepository implements VoteRepositoryInterface
             Identity::fromString($result['identity']),
             Url::fromString($result['url']),
             Rate::fromInteger((int)$result['rate']),
-            new DateTimeImmutable($result['created_at'])
+            Fingerprint::fromString($result['fingerprint']),
+            new DateTimeImmutable($result['created_at']),
         );
     }
 
@@ -51,7 +53,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'SELECT `identity`, `url`, `rate`, `created_at` FROM `vote` WHERE `url` = :url'
+                'SELECT `identity`, `url`, `rate`, `fingerprint`, `created_at` FROM `vote` WHERE `url` = :url'
             );
             $sth->bindValue(':url', $url->asString());
             $sth->execute();
@@ -64,7 +66,8 @@ class PDOVoteRepository implements VoteRepositoryInterface
             Identity::fromString($item['identity']),
             Url::fromString($item['url']),
             Rate::fromInteger((int)$item['rate']),
-            new DateTimeImmutable($item['created_at'])
+            Fingerprint::fromString($item['fingerprint']),
+            new DateTimeImmutable($item['created_at']),
         ), $results);
 
         return new VoteCollection($votes);
@@ -74,11 +77,12 @@ class PDOVoteRepository implements VoteRepositoryInterface
     {
         try {
             $sth = $this->connection->prepare(
-                'INSERT INTO `vote` (`identity`, `url`, `rate`, `created_at`) VALUES(:identity, :url, :rate, :created_at)'
+                'INSERT INTO `vote` (`identity`, `url`, `rate`, `fingerprint`, `created_at`) VALUES(:identity, :url, :rate, :fingerprint, :created_at)'
             );
             $sth->bindValue(':identity', $vote->getIdentity()->asString());
             $sth->bindValue(':url', $vote->getUrl()->asString());
             $sth->bindValue(':rate', $vote->getRate()->asInteger());
+            $sth->bindValue(':fingerprint', $vote->getFingerprint()->asString());
             $sth->bindValue(':created_at', $vote->getCreateAt()->format(self::DATE_TIME_FORMAT));
             $sth->execute();
         } catch (PDOException $exception) {

@@ -29,14 +29,16 @@ class AddVoteCommand extends Command
             ->setDescription('Create new vote.')
             ->setHelp('This command allows you to create new vote...')
             ->addArgument('url', InputArgument::REQUIRED, 'Site url')
-            ->addArgument('value', InputArgument::REQUIRED, 'Vote value');
+            ->addArgument('value', InputArgument::REQUIRED, 'Vote value')
+            ->addArgument('fingerprint', InputArgument::REQUIRED, 'Fingerprint value');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = new CreateVoteCommand(
             (string) $input->getArgument('url'),
-            (int) $input->getArgument('value')
+            (int) $input->getArgument('value'),
+            (string) $input->getArgument('fingerprint'),
         );
         $this->commandBus->handle($command);
         $output->writeln('Vote added.');

@@ -49,7 +49,7 @@ class VoteController extends AbstractController
 
         if (!$form->isValid()) {
             return $this->json([
-                "status" => "fail",
+                "status" => "validation_error",
                 "errors" => $this->getFormErrorsAsArray($form)
             ], Response::HTTP_BAD_REQUEST);
         }
@@ -60,7 +60,7 @@ class VoteController extends AbstractController
         try {
             $rating = $this->queryBus->handle($query);
         } catch (RetrieveRateException $exception) {
-            return $this->json(["status" => "error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(["status" => "internal_error"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->json($rating->toArray());
@@ -82,24 +82,30 @@ class VoteController extends AbstractController
                     new LessThan(6),
                 ],
             ])
+            ->add('fingerprint', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['min' => 5, 'max' => 255]),
+                ],
+            ])
             ->getForm();
 
         $form->submit(json_decode($request->getContent(), true));
 
         if (!$form->isValid()) {
             return $this->json([
-                "errors" => "fail",
+                "errors" => "validation_error",
                 "message" => $this->getFormErrorsAsArray($form)
             ], Response::HTTP_BAD_REQUEST);
         }
 
         $data = $form->getData();
-        $command = new CreateVoteCommand($data['url'], $data['value']);
+        $command = new CreateVoteCommand($data['url'], $data['value'], $data['fingerprint']);
 
         try {
             $this->commandBus->handle($command);
         } catch (SaveVoteException $exception) {
-            return $this->json(["status" => "error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(["status" => "internal_error"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->json(["status" => "success"], Response::HTTP_CREATED);

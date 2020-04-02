@@ -11,13 +11,15 @@ class Vote
     private Identity $identity;
     private Url $url;
     private Rate $rate;
+    private Fingerprint $fingerprint;
     private DateTimeImmutable $createAt;
 
-    public function __construct(Identity $identity, Url $url, Rate $rate, DateTimeImmutable $createAt)
+    public function __construct(Identity $identity, Url $url, Rate $rate, Fingerprint $fingerprint, DateTimeImmutable $createAt)
     {
         $this->identity = $identity;
         $this->url = $url;
         $this->rate = $rate;
+        $this->fingerprint = $fingerprint;
         $this->createAt = $createAt;
     }
 
@@ -34,6 +36,11 @@ class Vote
     public function getRate(): Rate
     {
         return $this->rate;
+    }
+
+    public function getFingerprint(): Fingerprint
+    {
+        return $this->fingerprint;
     }
 
     public function getCreateAt(): DateTimeImmutable
