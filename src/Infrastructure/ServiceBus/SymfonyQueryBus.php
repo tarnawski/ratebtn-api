@@ -24,6 +24,7 @@ class SymfonyQueryBus implements QueryBusInterface
 
     public function handle($query)
     {
+        /** @var HandledStamp $stamp */
         $stamp = $this->bus->dispatch($query)->last(HandledStamp::class);
 
         return $stamp->getResult();
