@@ -12,7 +12,7 @@ class ApplicationController extends AbstractController
 {
     public function statusAction(): JsonResponse
     {
-        return $this->json(["status" => "operational", "version" => "1.0.0"], 200);
+        return $this->json(["status" => "operational", "version" => "1.0.0"]);
     }
 
     public function specificationAction(): JsonResponse

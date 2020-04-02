@@ -6,6 +6,8 @@ namespace App\Application;
 
 class RatingResponse
 {
+    private const DEFAULT_AVERAGE_PRECISION = 2;
+
     private int $count;
     private float $average;
 
@@ -15,11 +17,11 @@ class RatingResponse
         $this->average = $average;
     }
 
-    public function toArray(): array
+    public function toArray(int $averagePrecision = self::DEFAULT_AVERAGE_PRECISION): array
     {
         return [
             'count' => $this->count,
-            'average' => $this->average
+            'average' => round($this->average, $averagePrecision)
         ];
     }
 }
