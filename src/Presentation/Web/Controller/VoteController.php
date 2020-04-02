@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
@@ -50,7 +51,7 @@ class VoteController extends AbstractController
             return $this->json([
                 "status" => "fail",
                 "errors" => $this->getFormErrorsAsArray($form)
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $data = $form->getData();
@@ -59,7 +60,7 @@ class VoteController extends AbstractController
         try {
             $rating = $this->queryBus->handle($query);
         } catch (RetrieveRateException $exception) {
-            return $this->json(["status" => "error"], 500);
+            return $this->json(["status" => "error"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->json($rating->toArray());
@@ -89,7 +90,7 @@ class VoteController extends AbstractController
             return $this->json([
                 "errors" => "fail",
                 "message" => $this->getFormErrorsAsArray($form)
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $data = $form->getData();
@@ -98,10 +99,10 @@ class VoteController extends AbstractController
         try {
             $this->commandBus->handle($command);
         } catch (SaveVoteException $exception) {
-            return $this->json(["status" => "error"], 500);
+            return $this->json(["status" => "error"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $this->json(["status" => "success"], 201);
+        return $this->json(["status" => "success"], Response::HTTP_CREATED);
     }
 
     private function getFormErrorsAsArray(FormInterface $form): array
