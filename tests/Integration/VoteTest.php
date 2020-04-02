@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
@@ -36,6 +38,6 @@ class VoteTest extends TestCase
         $this->assertEquals('2019-06-17 18:24:21', $result->getCreateAt()->format('Y-m-d H:i:s'));
         $this->assertEquals(3, $result->getRate()->asInteger());
 
-        $this->assertCount(1, $logger->getLogs());
+        $this->assertCount(2, $logger->getLogs());
     }
 }

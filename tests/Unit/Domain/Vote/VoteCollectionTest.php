@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Domain\Vote;
 
 use App\Domain\Vote\Rate;
@@ -11,8 +13,19 @@ use PHPUnit\Framework\TestCase;
 class VoteCollectionTest extends TestCase
 {
     /**
-     * @return array
+     * @param array $votes
+     * @param float $average
+     *
+     * @dataProvider rateAverageDataProvider
      */
+    public function testCalculateAverage(array $votes, float $average): void
+    {
+        $votes = array_map(fn (int $vote) => $this->createVoteMock($vote), $votes);
+        $collection = new VoteCollection($votes);
+
+        $this->assertEquals($average, $collection->calculateAverageOfVotes());
+    }
+
     public function rateAverageDataProvider(): array
     {
         return [
@@ -25,21 +38,18 @@ class VoteCollectionTest extends TestCase
 
     /**
      * @param array $votes
-     * @param float $average
+     * @param int $count
      *
-     * @dataProvider rateAverageDataProvider
+     * @dataProvider rateCountDataProvider
      */
-    public function testCalculateAverage(array $votes, float $average): void
+    public function testCalculateCount(array $votes, int $count): void
     {
-        $votes = array_map(function (int $vote) { return $this->createVoteMock($vote); }, $votes);
+        $votes = array_map(fn (int $vote) => $this->createVoteMock($vote), $votes);
         $collection = new VoteCollection($votes);
 
-        $this->assertEquals($average, $collection->calculateAverageOfVotes());
+        $this->assertEquals($count, $collection->getNumberOfVotes());
     }
 
-    /**
-     * @return array
-     */
     public function rateCountDataProvider(): array
     {
         return [
@@ -51,24 +61,6 @@ class VoteCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @param array $votes
-     * @param int $count
-     *
-     * @dataProvider rateCountDataProvider
-     */
-    public function testCalculateCount(array $votes, int $count): void
-    {
-        $votes = array_map(function (int $vote) { return $this->createVoteMock($vote); }, $votes);
-        $collection = new VoteCollection($votes);
-
-        $this->assertEquals($count, $collection->getNumberOfVotes());
-    }
-
-    /**
-     * @param int $rateValue
-     * @return MockObject
-     */
     private function createVoteMock(int $rateValue): MockObject
     {
         $rate = $this->getMockBuilder(Rate::class)

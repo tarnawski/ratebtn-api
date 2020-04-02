@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Integration\Stub;
 
@@ -6,8 +8,7 @@ use App\Domain\UuidProviderInterface;
 
 class StubUuidProvider implements UuidProviderInterface
 {
-    /** @var string */
-    private $uuid;
+    private string $uuid;
 
     public function __construct(string $uuid)
     {

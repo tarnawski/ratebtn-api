@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presentation\Web\Controller;
 
@@ -21,11 +23,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VoteController extends AbstractController
 {
-    /** @var CommandBusInterface */
-    private $commandBus;
-
-    /** @var QueryBusInterface */
-    private $queryBus;
+    private CommandBusInterface $commandBus;
+    private QueryBusInterface $queryBus;
 
     public function __construct(CommandBusInterface $commandBus, QueryBusInterface $queryBus)
     {

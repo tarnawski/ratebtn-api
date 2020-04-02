@@ -6,8 +6,6 @@ services:
     volumes:
       - .:/var/www/html
     working_dir: /var/www/html
-    links:
-      - mysql
 
   nginx:
     image: nginx:stable
@@ -16,8 +14,6 @@ services:
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - php
-    links:
       - php
 
   mysql:

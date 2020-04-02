@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Application\Command;
 
+use App\Application\Exception\ErrorCode;
 use App\Application\Exception\SaveVoteException;
 use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
@@ -16,24 +19,11 @@ use App\Domain\VoteRepositoryInterface;
 
 class CreateVoteCommandHandler
 {
-    /** @var VoteRepositoryInterface */
-    private $voteRepository;
+    private VoteRepositoryInterface $voteRepository;
+    private UuidProviderInterface $uuidProvider;
+    private CalendarInterface $calendar;
+    private LoggerInterface $logger;
 
-    /** @var UuidProviderInterface */
-    private $uuidProvider;
-
-    /** @var CalendarInterface */
-    private $calendar;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /**
-     * @param VoteRepositoryInterface $voteRepository
-     * @param UuidProviderInterface $uuidProvider
-     * @param CalendarInterface $calendar
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         VoteRepositoryInterface $voteRepository,
         UuidProviderInterface $uuidProvider,
@@ -46,34 +36,35 @@ class CreateVoteCommandHandler
         $this->logger = $logger;
     }
 
-    /**
-     * @param CreateVoteCommand $command
-     * @throws SaveVoteException
-     */
     public function handle(CreateVoteCommand $command): void
     {
+        $this->logger->log(LoggerInterface::NOTICE, 'Create vote command appear in system', [
+            'url' => $command->getUrl(),
+            'rate' => $command->getRate(),
+        ]);
+
         try {
             $vote = new Vote(
                 Identity::fromString($this->uuidProvider->generate()),
                 Url::fromString($command->getUrl()),
                 Rate::fromInteger($command->getRate()),
-                $this->calendar->currentTime()
+                $this->calendar->currentTime(),
             );
         } catch (DomainException $exception) {
-            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
-            throw new SaveVoteException('Create vote failed.');
+            $this->logger->log(LoggerInterface::ERROR, 'Vote can not be created.');
+            throw new SaveVoteException('Vote can not be created.', ErrorCode::DOMAIN_ERROR, $exception);
         }
 
         try {
             $this->voteRepository->persist($vote);
         } catch (PersistenceException $exception) {
-            $this->logger->log(LoggerInterface::ERROR, $exception->getMessage());
-            throw new SaveVoteException('Save vote failed.');
+            $this->logger->log(LoggerInterface::ERROR, 'Vote can not be persist.');
+            throw new SaveVoteException('Vote can not be persist.', ErrorCode::PERSISTENCE_ERROR, $exception);
         }
 
         $this->logger->log(LoggerInterface::NOTICE, 'Vote was successfully created.', [
             'id' => $vote->getIdentity()->asString(),
-            'url' => $vote->getUrl()->asString()
+            'url' => $vote->getUrl()->asString(),
         ]);
     }
 }

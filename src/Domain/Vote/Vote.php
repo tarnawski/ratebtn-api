@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Vote;
 
@@ -6,17 +8,10 @@ use DateTimeImmutable;
 
 class Vote
 {
-    /** @var Identity */
-    private $identity;
-
-    /** @var Url */
-    private $url;
-
-    /** @var Rate */
-    private $rate;
-
-    /** @var DateTimeImmutable */
-    private $createAt;
+    private Identity $identity;
+    private Url $url;
+    private Rate $rate;
+    private DateTimeImmutable $createAt;
 
     public function __construct(Identity $identity, Url $url, Rate $rate, DateTimeImmutable $createAt)
     {

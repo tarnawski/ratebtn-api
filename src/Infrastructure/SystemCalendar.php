@@ -10,8 +10,7 @@ use DateTimeZone;
 
 class SystemCalendar implements CalendarInterface
 {
-    /** @var DateTimeZone|null */
-    private $timeZone;
+    private ?DateTimeZone $timeZone;
 
     public function __construct(DateTimeZone $timeZone = null)
     {

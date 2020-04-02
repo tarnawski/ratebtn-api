@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\ServiceBus;
 
@@ -11,28 +13,17 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class SymfonyQueryBus implements QueryBusInterface
 {
-    /** @var MessageBus */
-    private $bus;
+    private MessageBus $bus;
 
-    /**
-     * @param array $mapping
-     */
     public function __construct(array $mapping)
     {
-        $mapping = array_map(function ($handler) {
-            return [new QueryHandlerAdapter($handler)];
-        }, $mapping);
+        $mapping = array_map(fn ($handler) => [new QueryHandlerAdapter($handler)], $mapping);
 
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 
-    /**
-     * @param mixed $query
-     * @return mixed
-     */
     public function handle($query)
     {
-        /** @var HandledStamp $stamp */
         $stamp = $this->bus->dispatch($query)->last(HandledStamp::class);
 
         return $stamp->getResult();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Vote;
 
@@ -6,19 +8,11 @@ use App\Domain\Exception\InvalidArgumentException;
 
 class Url
 {
-    /** @var int */
     private const MIN_URL_LENGTH = 5;
-
-    /** @var int */
     private const MAX_URL_LENGTH = 255;
 
-    /** @var string */
-    private $value;
+    private string $value;
 
-    /**
-     * @param string $value
-     * @throws InvalidArgumentException
-     */
     private function __construct(string $value)
     {
         if (false === filter_var($value, FILTER_VALIDATE_URL)) {
@@ -36,14 +30,9 @@ class Url
         $this->value = $value;
     }
 
-    /**
-     * @param string $value
-     * @return static
-     * @throws InvalidArgumentException
-     */
-    public static function fromString(string $value): self
+    public static function fromString(string $value): Url
     {
-        return new self($value);
+        return new Url($value);
     }
 
     public function asString(): string

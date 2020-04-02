@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Integration\Fake;
 
@@ -11,20 +13,13 @@ use App\Infrastructure\Exception\NotFoundException;
 
 class InMemoryVoteRepository implements VoteRepositoryInterface
 {
-    /** @var Vote[]  */
-    public $votes = [];
+    public array $votes = [];
 
-    /**
-     * @param array $votes
-     */
     public function __construct(array $votes = [])
     {
         $this->votes = $votes;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getByIdentity(Identity $identity): Vote
     {
         if (!array_key_exists($identity->asString(), $this->votes)) {
@@ -34,9 +29,6 @@ class InMemoryVoteRepository implements VoteRepositoryInterface
         return $this->votes[$identity->asString()];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getByUrl(Url $url): VoteCollection
     {
         $votes = array_filter($this->votes, function (Vote $vote) use ($url) {
@@ -46,9 +38,6 @@ class InMemoryVoteRepository implements VoteRepositoryInterface
         return new VoteCollection($votes);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function persist(Vote $vote): void
     {
         $this->votes[$vote->getIdentity()->asString()] = $vote;

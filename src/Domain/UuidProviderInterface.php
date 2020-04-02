@@ -1,11 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\Domain;
 
 interface UuidProviderInterface
 {
-    /**
-     * @return string
-     */
     public function generate(): string;
 }
