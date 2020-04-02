@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\ServiceBus;
 
@@ -10,24 +12,15 @@ use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
 
 class SymfonyCommandBus implements CommandBusInterface
 {
-    /** @var MessageBus */
-    private $bus;
+    private MessageBus $bus;
 
-    /**
-     * @param array $mapping
-     */
     public function __construct(array $mapping)
     {
-        $mapping = array_map(function ($handler) {
-            return [new CommandHandlerAdapter($handler)];
-        }, $mapping);
+        $mapping = array_map(fn ($handler) => [new CommandHandlerAdapter($handler)], $mapping);
 
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 
-    /**
-     * @param mixed $command
-     */
     public function handle($command): void
     {
         $this->bus->dispatch($command);

@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application;
 
 class RatingResponse
 {
-    /** @var integer */
-    private $count;
+    private int $count;
+    private float $average;
 
-    /** @var float */
-    private $average;
-
-    /**
-     * @param int $count
-     * @param float $average
-     */
     public function __construct(int $count, float $average)
     {
         $this->count = $count;

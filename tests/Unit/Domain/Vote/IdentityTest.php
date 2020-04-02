@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Domain\Vote;
 
 use App\Domain\Exception\InvalidArgumentException;
@@ -9,8 +11,15 @@ use PHPUnit\Framework\TestCase;
 class IdentityTest extends TestCase
 {
     /**
-     * @return array
+     * @param string $value
+     * @dataProvider validIdentityDataProvider
      */
+    public function testCreateIdentityWithValidString(string $value): void
+    {
+        $identity = Identity::fromString($value);
+        $this->assertEquals($value, $identity->asString());
+    }
+
     public function validIdentityDataProvider(): array
     {
         return [
@@ -24,36 +33,19 @@ class IdentityTest extends TestCase
 
     /**
      * @param string $value
-     * @throws InvalidArgumentException
-     *
-     * @dataProvider validIdentityDataProvider
-     */
-    public function testCreateIdentityWithValidString(string $value): void
-    {
-        $identity = Identity::fromString($value);
-        $this->assertEquals($value, $identity->asString());
-    }
-
-    /**
-     * @return array
-     */
-    public function invalidIdentityDataProvider(): array
-    {
-        return [
-            'valid uuid version 1' => ['7e111f88-caa4-11e9-a32f-2a2ae2dbcce4'],
-            'invalid uuid' => ['e111f8a8-caa4-11e9t34-a32f'],
-        ];
-    }
-
-    /**
-     * @param string $value
-     * @throws InvalidArgumentException
-     *
      * @dataProvider invalidIdentityDataProvider
      */
     public function testCreateIdentityWithInvalidString(string $value): void
     {
         $this->expectException(InvalidArgumentException::class);
         Identity::fromString($value);
+    }
+
+    public function invalidIdentityDataProvider(): array
+    {
+        return [
+            'valid uuid version 1' => ['7e111f88-caa4-11e9-a32f-2a2ae2dbcce4'],
+            'invalid uuid' => ['e111f8a8-caa4-11e9t34-a32f'],
+        ];
     }
 }

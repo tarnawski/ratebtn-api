@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence;
 
@@ -15,23 +17,15 @@ use PDOException;
 
 class PDOVoteRepository implements VoteRepositoryInterface
 {
-    /** @var string */
     private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    /** @var PDO */
-    private $connection;
+    private PDO $connection;
 
-    /**
-     * @param PDO $connection
-     */
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getByIdentity(Identity $identity): Vote
     {
         try {
@@ -53,9 +47,6 @@ class PDOVoteRepository implements VoteRepositoryInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getByUrl(Url $url): VoteCollection
     {
         try {
@@ -69,21 +60,16 @@ class PDOVoteRepository implements VoteRepositoryInterface
             throw new PersistenceException('Failed to fetch vote by url.', 0, $exception);
         }
 
-        $votes = array_map(function (array $item) {
-            return new Vote(
-                Identity::fromString($item['identity']),
-                Url::fromString($item['url']),
-                Rate::fromInteger((int)$item['rate']),
-                new DateTimeImmutable($item['created_at'])
-            );
-        }, $results);
+        $votes = array_map(fn (array $item) => new Vote(
+            Identity::fromString($item['identity']),
+            Url::fromString($item['url']),
+            Rate::fromInteger((int)$item['rate']),
+            new DateTimeImmutable($item['created_at'])
+        ), $results);
 
         return new VoteCollection($votes);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function persist(Vote $vote): void
     {
         try {

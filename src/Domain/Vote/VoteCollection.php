@@ -1,15 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Vote;
 
 class VoteCollection
 {
-    /** @var Vote[] */
-    private $votes;
+    private array $votes;
 
-    /**
-     * @param Vote[] $votes
-     */
     public function __construct(array $votes = [])
     {
         $this->votes = $votes;
@@ -25,10 +23,7 @@ class VoteCollection
         if ($this->getNumberOfVotes() === 0) {
             return 0.0;
         }
-
-        $votes = array_map(function (Vote $vote) {
-            return $vote->getRate()->asInteger();
-        }, $this->votes);
+        $votes = array_map(fn (Vote $vote) => $vote->getRate()->asInteger(), $this->votes);
 
         return array_sum($votes) / $this->getNumberOfVotes();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\ServiceBus\Adapter;
 
@@ -9,9 +11,6 @@ class CommandHandlerAdapter
 {
     private $handler;
 
-    /**
-     * @param mixed $handler
-     */
     public function __construct($handler)
     {
         $this->handler = $handler;

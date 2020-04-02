@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presentation\Cli\Command;
 
@@ -11,24 +13,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddVoteCommand extends Command
 {
-    /** @var string */
     protected static $defaultName = 'app:vote-add';
 
-    /** @var CommandBusInterface */
-    private $commandBus;
+    private CommandBusInterface $commandBus;
 
-    /**
-     * @param CommandBusInterface $commandBus
-     */
     public function __construct(CommandBusInterface $commandBus)
     {
         parent::__construct();
         $this->commandBus = $commandBus;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function configure()
     {
         $this
@@ -38,10 +32,7 @@ class AddVoteCommand extends Command
             ->addArgument('value', InputArgument::REQUIRED, 'Vote value');
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = new CreateVoteCommand(
             (string) $input->getArgument('url'),
@@ -49,5 +40,7 @@ class AddVoteCommand extends Command
         );
         $this->commandBus->handle($command);
         $output->writeln('Vote added.');
+
+        return 0;
     }
 }

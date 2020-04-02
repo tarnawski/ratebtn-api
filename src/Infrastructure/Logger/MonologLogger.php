@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\Logger;
 
@@ -8,8 +10,7 @@ use Monolog\Logger;
 
 class MonologLogger implements LoggerInterface
 {
-    /** @var Logger */
-    private $logger;
+    private Logger $logger;
 
     public function __construct(string $name, string $path)
     {

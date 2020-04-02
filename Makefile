@@ -3,7 +3,7 @@ CWD:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 archive:
 	composer archive --format=tar --file=ratebtn
 phpcs:
-	php vendor/bin/phpcs --standard="PSR2" -n src/
+	php vendor/bin/phpcs --standard="PSR12" -n src/ tests/
 phpstan:
 	php vendor/bin/phpstan analyse src -l 5
 test-unit:

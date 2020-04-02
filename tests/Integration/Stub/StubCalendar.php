@@ -9,8 +9,7 @@ use DateTimeImmutable;
 
 class StubCalendar implements CalendarInterface
 {
-    /** @var DateTimeImmutable */
-    private $currentTime;
+    private DateTimeImmutable $currentTime;
 
     public function __construct(DateTimeImmutable $currentTime)
     {
@@ -22,7 +21,7 @@ class StubCalendar implements CalendarInterface
         return $this->currentTime;
     }
 
-    public function modify(string $modify) : void
+    public function modify(string $modify): void
     {
         $this->currentTime = $this->currentTime->modify($modify);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
@@ -39,9 +41,10 @@ class RateTest extends TestCase
                 new DateTimeImmutable('2019-06-17 18:24:21')
             )
         ]);
+        $logger = new InMemoryLogger();
 
         $queryBus = new SymfonyQueryBus([
-            RatingQuery::class => new RatingQueryHandler($voteRepository, new InMemoryLogger())
+            RatingQuery::class => new RatingQueryHandler($voteRepository, $logger)
         ]);
 
         $ratingQuery = new RatingQuery('http://www.example.com');
@@ -50,5 +53,7 @@ class RateTest extends TestCase
         $this->assertInstanceOf(RatingResponse::class, $result);
         $this->assertEquals(2, $result->toArray()['count']);
         $this->assertEquals(3.5, $result->toArray()['average']);
+
+        $this->assertCount(1, $logger->getLogs());
     }
 }
