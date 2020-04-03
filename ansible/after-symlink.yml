@@ -1,0 +1,4 @@
+- name: Remove cache and logs directory
+  file:
+    path: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/var"
+    state: absent

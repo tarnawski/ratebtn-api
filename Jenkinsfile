@@ -21,4 +21,10 @@ node {
 	stage('Integration Tests') {
 		sh 'php73 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=integration'
 	}
+	stage('Create artifact') {
+		sh 'composer archive --format=tar --file=artifact'
+	}
+	stage('Deploy to production') {
+		sh 'ansible-playbook ansible/deploy.yml'
+	}
 }
