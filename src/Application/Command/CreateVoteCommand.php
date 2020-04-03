@@ -8,11 +8,13 @@ class CreateVoteCommand
 {
     private string $url;
     private int $rate;
+    private string $fingerprint;
 
-    public function __construct(string $url, int $rate)
+    public function __construct(string $url, int $rate, string $fingerprint)
     {
         $this->url = $url;
         $this->rate = $rate;
+        $this->fingerprint = $fingerprint;
     }
 
     public function getUrl(): string
@@ -23,5 +25,10 @@ class CreateVoteCommand
     public function getRate(): int
     {
         return $this->rate;
+    }
+
+    public function getFingerprint(): string
+    {
+        return $this->fingerprint;
     }
 }

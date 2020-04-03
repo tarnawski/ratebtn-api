@@ -17,8 +17,8 @@ class ApplicationController extends AbstractController
 
     public function specificationAction(): JsonResponse
     {
-        $rootDir = $this->getParameter('kernel.root_dir');
-        $specificationPath = sprintf('%s/../doc/specification.yml', $rootDir);
+        $rootDir = $this->getParameter('kernel.project_dir');
+        $specificationPath = sprintf('%s/doc/specification.yml', $rootDir);
 
         return $this->json(Yaml::parseFile($specificationPath));
     }

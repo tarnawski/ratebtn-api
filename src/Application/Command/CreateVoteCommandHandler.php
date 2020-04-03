@@ -10,6 +10,7 @@ use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\UuidProviderInterface;
+use App\Domain\Vote\Fingerprint;
 use App\Infrastructure\Exception\PersistenceException;
 use App\Domain\Vote\Url;
 use App\Domain\Vote\Identity;
@@ -48,6 +49,7 @@ class CreateVoteCommandHandler
                 Identity::fromString($this->uuidProvider->generate()),
                 Url::fromString($command->getUrl()),
                 Rate::fromInteger($command->getRate()),
+                Fingerprint::fromString($command->getFingerprint()),
                 $this->calendar->currentTime(),
             );
         } catch (DomainException $exception) {
