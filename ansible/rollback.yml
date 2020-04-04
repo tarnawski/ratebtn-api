@@ -1,0 +1,13 @@
+---
+- name: Rollback last release
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  vars:
+    ansistrano_deploy_to: "/home/ttarnawski/domains/test.ttarnawski.usermd.net/public_html"
+    ansistrano_version_dir: "releases"
+    ansistrano_current_dir: "current"
+    ansistrano_remove_rolled_back: yes
+    ansistrano_allow_anonymous_stats: no
+  roles:
+    - { role: ansistrano.rollback }
