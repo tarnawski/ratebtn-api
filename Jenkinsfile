@@ -13,6 +13,9 @@ node {
         	"PHPStan": {
 				sh 'php74 vendor/bin/phpstan analyse src -l 5'
 			}
+			"Yaml linting": {
+				sh 'php74 bin/console lint:yaml ./config/'
+			}
         )
 	}
 	stage('Unit Tests') {
