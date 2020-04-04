@@ -7,6 +7,9 @@ node {
     }
     stage ('Static code analysis') {
 		parallel (
+			"Yaml linting": {
+				sh 'php74 bin/console lint:yaml ./config/'
+			},
         	"Check PSR-2": {
 				sh 'php74 vendor/bin/phpcs --standard="PSR12" -n src/ tests/'
         	},
