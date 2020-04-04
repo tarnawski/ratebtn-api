@@ -4,7 +4,7 @@
   connection: local
   gather_facts: no
   vars:
-    ansistrano_deploy_to: "/home/ttarnawski/domains/test.ttarnawski.usermd.net/public_html"
+    ansistrano_deploy_to: "/home/ttarnawski/domains/api.ratebtn.ttarnawski.usermd.net/public_html"
     ansistrano_version_dir: "releases"
     ansistrano_current_dir: "current"
     ansistrano_remove_rolled_back: yes

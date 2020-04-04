@@ -4,7 +4,7 @@
   connection: local
   gather_facts: no
   vars:
-    ansistrano_deploy_to: "/home/ttarnawski/domains/test.ttarnawski.usermd.net/public_html"
+    ansistrano_deploy_to: "/home/ttarnawski/domains/api.ratebtn.ttarnawski.usermd.net/public_html"
     ansistrano_deploy_from: "{{ playbook_dir }}/../artifact.tar"
     ansistrano_deploy_via: "copy_unarchive"
     ansistrano_current_via: "rsync"
