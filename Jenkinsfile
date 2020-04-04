@@ -7,9 +7,6 @@ node {
     }
     stage ('Static code analysis') {
 		parallel (
-			"Security check": {
-				sh 'php74 bin/security-checker security:check'
-			},
 			"Yaml linting": {
 				sh 'php74 bin/console lint:yaml ./config/'
 			},
