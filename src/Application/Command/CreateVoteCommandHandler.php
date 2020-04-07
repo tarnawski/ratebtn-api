@@ -9,6 +9,7 @@ use App\Application\Exception\SaveVoteException;
 use App\Application\LoggerInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
+use App\Domain\FraudChecker;
 use App\Domain\UuidProviderInterface;
 use App\Domain\Vote\Fingerprint;
 use App\Infrastructure\Exception\PersistenceException;
@@ -21,17 +22,20 @@ use App\Domain\VoteRepositoryInterface;
 class CreateVoteCommandHandler
 {
     private VoteRepositoryInterface $voteRepository;
+    private FraudChecker $fraudChecker;
     private UuidProviderInterface $uuidProvider;
     private CalendarInterface $calendar;
     private LoggerInterface $logger;
 
     public function __construct(
         VoteRepositoryInterface $voteRepository,
+        FraudChecker $fraudChecker,
         UuidProviderInterface $uuidProvider,
         CalendarInterface $calendar,
         LoggerInterface $logger
     ) {
         $this->voteRepository = $voteRepository;
+        $this->fraudChecker = $fraudChecker;
         $this->uuidProvider = $uuidProvider;
         $this->calendar = $calendar;
         $this->logger = $logger;
@@ -55,6 +59,15 @@ class CreateVoteCommandHandler
         } catch (DomainException $exception) {
             $this->logger->log(LoggerInterface::ERROR, 'Vote can not be created.');
             throw new SaveVoteException('Vote can not be created.', ErrorCode::DOMAIN_ERROR, $exception);
+        }
+
+        if ($this->fraudChecker->check($vote)) {
+            $this->logger->log(LoggerInterface::NOTICE, 'Vote classified as fraud.', [
+                'url' => $vote->getUrl()->asString(),
+                'fingerprint' => $vote->getFingerprint()->asString(),
+            ]);
+
+            return;
         }
 
         try {

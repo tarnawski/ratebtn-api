@@ -13,6 +13,11 @@ class VoteCollection
         $this->votes = $votes;
     }
 
+    public function getVotes(): array
+    {
+        return $this->votes;
+    }
+
     public function getNumberOfVotes(): int
     {
         return count($this->votes);

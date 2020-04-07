@@ -4,7 +4,7 @@ CREATE TABLE `vote` (
   `identity` VARCHAR(36) NOT NULL UNIQUE,
   `url` VARCHAR(255) NOT NULL,
   `rate` INTEGER NOT NULL,
-  `fingerprint` VARCHAR(255) NOT NULL,
+  `fingerprint` VARCHAR(36) NOT NULL,
   `created_at` datetime NOT NULL
 );
 

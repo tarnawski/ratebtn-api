@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use App\Domain\FraudChecker;
 use App\Domain\Vote\Identity;
 use App\Application\Command\CreateVoteCommand;
 use App\Application\Command\CreateVoteCommandHandler;
@@ -20,11 +21,12 @@ class VoteTest extends TestCase
     public function testAddVote(): void
     {
         $voteRepository = new InMemoryVoteRepository();
+        $fraudChecker = new FraudChecker($voteRepository);
         $calendar = new StubCalendar(new DateTimeImmutable('2019-06-17 18:24:21'));
         $uuidProvider = new StubUuidProvider('1c46e9ed-d03a-4103-a3f2-2504c1f0052c');
         $logger = new InMemoryLogger();
 
-        $voteCommandHandler = new CreateVoteCommandHandler($voteRepository, $uuidProvider, $calendar, $logger);
+        $voteCommandHandler = new CreateVoteCommandHandler($voteRepository, $fraudChecker, $uuidProvider, $calendar, $logger);
         $commandBus = new SymfonyCommandBus([
             CreateVoteCommand::class => $voteCommandHandler
         ]);
