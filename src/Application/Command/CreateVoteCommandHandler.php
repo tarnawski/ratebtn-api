@@ -61,7 +61,7 @@ class CreateVoteCommandHandler
             throw new SaveVoteException('Vote can not be created.', ErrorCode::DOMAIN_ERROR, $exception);
         }
 
-        if (!$this->fraudChecker->check($vote)) {
+        if ($this->fraudChecker->check($vote)) {
             $this->logger->log(LoggerInterface::NOTICE, 'Vote classified as fraud.', [
                 'url' => $vote->getUrl()->asString(),
                 'fingerprint' => $vote->getFingerprint()->asString(),

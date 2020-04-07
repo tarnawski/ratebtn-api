@@ -17,12 +17,12 @@ class FraudChecker
 
     public function check(Vote $vote): bool
     {
-        foreach ($this->voteRepository->getByUrl($vote->getUrl()) as $vote) {
-            if ($vote->getFingerprint()->isEqual($vote->getFingerprint())) {
+        foreach ($this->voteRepository->getByUrl($vote->getUrl())->getVotes() as $item) {
+            if ($item->getFingerprint()->isEqual($vote->getFingerprint())) {
                 return true;
             }
         }
 
-        return true;
+        return false;
     }
 }
