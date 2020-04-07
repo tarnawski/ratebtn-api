@@ -9,7 +9,7 @@ use App\Domain\Exception\InvalidArgumentException;
 class Fingerprint
 {
     private const MIN_FINGERPRINT_LENGTH = 5;
-    private const MAX_FINGERPRINT_LENGTH = 255;
+    private const MAX_FINGERPRINT_LENGTH = 36;
 
     private string $value;
 
@@ -24,6 +24,11 @@ class Fingerprint
         }
 
         $this->value = $value;
+    }
+
+    public function isEqual(Fingerprint $fingerprint): bool
+    {
+        return $this->asString() === $fingerprint->asString();
     }
 
     public static function fromString(string $value): Fingerprint
