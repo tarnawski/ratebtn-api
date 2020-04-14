@@ -17,7 +17,7 @@ class FraudChecker
 
     public function check(Vote $vote): bool
     {
-        foreach ($this->voteRepository->getByUrl($vote->getUrl())->getVotes() as $item) {
+        foreach ($this->voteRepository->getByUrl($vote->getUrl()) as $item) {
             if ($item->getFingerprint()->isEqual($vote->getFingerprint())) {
                 return true;
             }
