@@ -37,6 +37,7 @@ pipeline {
 			when { branch 'master' }
 			steps {
 				sh 'composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
+				sh 'echo "{\"release_date\": \"$(date)\", \"change_id\": \"$env.CHANGE_ID\"}" > "info.json"'
 				sh 'composer archive --format=tar --file=artifact'
 				sh 'ansible-playbook ansible/deploy.yml'
 			}
