@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Vote;
 
-class VoteCollection
+use App\SharedKernel\ItemIteratorTrait;
+use Iterator;
+
+class VoteCollection implements Iterator
 {
-    private array $votes;
-
-    public function __construct(array $votes = [])
-    {
-        $this->votes = $votes;
-    }
-
-    public function getVotes(): array
-    {
-        return $this->votes;
-    }
+    use ItemIteratorTrait;
 
     public function getNumberOfVotes(): int
     {
-        return count($this->votes);
+        return count($this->items);
     }
 
     public function calculateAverageOfVotes(): float
@@ -28,7 +21,7 @@ class VoteCollection
         if ($this->getNumberOfVotes() === 0) {
             return 0.0;
         }
-        $votes = array_map(fn (Vote $vote) => $vote->getRate()->asInteger(), $this->votes);
+        $votes = array_map(fn (Vote $vote) => $vote->getRate()->asInteger(), $this->items);
 
         return array_sum($votes) / $this->getNumberOfVotes();
     }
