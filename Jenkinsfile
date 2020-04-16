@@ -36,8 +36,11 @@ pipeline {
 		stage('Deploy to production') {
 			when { branch 'master' }
 			steps {
+				script {
+				   def date = new Date()
+				   writeFile(file: 'info.json', text: "{\"release_date\": \"" + date + "\"}")
+				}
 				sh 'composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
-				sh 'echo "{\"release_date\": \"$(date)\", \"change_id\": \"$env.CHANGE_ID\"}" > "info.json"'
 				sh 'composer archive --format=tar --file=artifact'
 				sh 'ansible-playbook ansible/deploy.yml'
 			}

@@ -82,6 +82,7 @@
             "phpunit.xml.dist",
             "Makefile",
             "README.md",
+            "Jenkinsfile",
             ".env",
             ".env.test",
             ".git",
