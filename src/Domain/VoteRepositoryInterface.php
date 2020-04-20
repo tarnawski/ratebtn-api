@@ -9,9 +9,9 @@ use App\Domain\Vote\VoteCollection;
 
 interface VoteRepositoryInterface
 {
-    public function getByIdentity(Identity $identity): Vote;
+    public function findByIdentity(Identity $identity): Vote;
 
-    public function getByUrl(Url $url): VoteCollection;
+    public function findByUrl(Url $url): VoteCollection;
 
-    public function persist(Vote $vote): void;
+    public function add(Vote $vote): void;
 }

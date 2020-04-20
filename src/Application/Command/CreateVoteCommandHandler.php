@@ -71,7 +71,7 @@ class CreateVoteCommandHandler
         }
 
         try {
-            $this->voteRepository->persist($vote);
+            $this->voteRepository->add($vote);
         } catch (PersistenceException $exception) {
             $this->logger->log(LoggerInterface::ERROR, 'Vote can not be persist.');
             throw new SaveVoteException('Vote can not be persist.', ErrorCode::PERSISTENCE_ERROR, $exception);

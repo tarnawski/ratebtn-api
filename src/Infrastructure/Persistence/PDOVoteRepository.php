@@ -27,7 +27,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
         $this->connection = $connection;
     }
 
-    public function getByIdentity(Identity $identity): Vote
+    public function findByIdentity(Identity $identity): Vote
     {
         try {
             $sth = $this->connection->prepare(
@@ -49,7 +49,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
         );
     }
 
-    public function getByUrl(Url $url): VoteCollection
+    public function findByUrl(Url $url): VoteCollection
     {
         try {
             $sth = $this->connection->prepare(
@@ -73,7 +73,7 @@ class PDOVoteRepository implements VoteRepositoryInterface
         return new VoteCollection($votes);
     }
 
-    public function persist(Vote $vote): void
+    public function add(Vote $vote): void
     {
         try {
             $sth = $this->connection->prepare(
