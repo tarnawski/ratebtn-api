@@ -38,7 +38,7 @@ class RatingQueryHandler
         }
 
         try {
-            $votes = $this->voteRepository->getByUrl($url);
+            $votes = $this->voteRepository->findByUrl($url);
         } catch (PersistenceException $exception) {
             $this->logger->log(LoggerInterface::ERROR, 'Votes can not be fetch.');
             throw new RetrieveRateException('Votes can not be fetch.', ErrorCode::PERSISTENCE_ERROR, $exception);

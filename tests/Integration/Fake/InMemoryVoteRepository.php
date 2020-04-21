@@ -20,7 +20,7 @@ class InMemoryVoteRepository implements VoteRepositoryInterface
         $this->votes = $votes;
     }
 
-    public function getByIdentity(Identity $identity): Vote
+    public function findByIdentity(Identity $identity): Vote
     {
         if (!array_key_exists($identity->asString(), $this->votes)) {
             throw new NotFoundException('Vote not found');
@@ -29,7 +29,7 @@ class InMemoryVoteRepository implements VoteRepositoryInterface
         return $this->votes[$identity->asString()];
     }
 
-    public function getByUrl(Url $url): VoteCollection
+    public function findByUrl(Url $url): VoteCollection
     {
         $votes = array_filter($this->votes, function (Vote $vote) use ($url) {
             return $vote->getUrl()->asString() === $url->asString();
@@ -38,7 +38,7 @@ class InMemoryVoteRepository implements VoteRepositoryInterface
         return new VoteCollection($votes);
     }
 
-    public function persist(Vote $vote): void
+    public function add(Vote $vote): void
     {
         $this->votes[$vote->getIdentity()->asString()] = $vote;
     }

@@ -33,7 +33,7 @@ class VoteTest extends TestCase
         $voteCommand = new CreateVoteCommand('http://www.example.com', 3, '1c46e9ed');
         $commandBus->handle($voteCommand);
 
-        $result = $voteRepository->getByIdentity(Identity::fromString('1c46e9ed-d03a-4103-a3f2-2504c1f0052c'));
+        $result = $voteRepository->findByIdentity(Identity::fromString('1c46e9ed-d03a-4103-a3f2-2504c1f0052c'));
 
         $this->assertEquals('1c46e9ed-d03a-4103-a3f2-2504c1f0052c', $result->getIdentity()->asString());
         $this->assertEquals('http://www.example.com', $result->getUrl()->asString());
