@@ -26,7 +26,7 @@ class RatingUpdater
 
     public function updateByUrl(Url $url): void
     {
-        $votes = $this->voteRepository->getByUrl($url);
+        $votes = $this->voteRepository->findByUrl($url);
         $this->ratingRepository->update(new Rating(
             $url,
             $this->ratingCalculator->calculateCountOfVotes($votes),
