@@ -6,7 +6,7 @@ namespace App\Presentation\Web\Controller;
 
 use App\Application\Command\CreateVoteCommand;
 use App\Application\CommandBusInterface;
-use App\Application\Exception\RetrieveRateException;
+use App\Application\Exception\RetrieveRatingException;
 use App\Application\Exception\SaveVoteException;
 use App\Application\Query\RatingQuery;
 use App\Application\QueryBusInterface;
@@ -59,7 +59,7 @@ class VoteController extends AbstractController
 
         try {
             $rating = $this->queryBus->handle($query);
-        } catch (RetrieveRateException $exception) {
+        } catch (RetrieveRatingException $exception) {
             return $this->json(["status" => "internal_error"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

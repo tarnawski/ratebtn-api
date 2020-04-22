@@ -7,6 +7,7 @@ namespace App\Tests\Functional;
 use App\Application\RatingResponse;
 use App\Application\Query\RatingQuery;
 use App\Application\Query\RatingQueryHandler;
+use App\Domain\Rating\Rating;
 use App\Domain\Vote\Fingerprint;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Url;
@@ -14,6 +15,7 @@ use App\Domain\Vote\Vote;
 use App\Domain\Vote\Identity;
 use App\Infrastructure\Logger\InMemoryLogger;
 use App\Infrastructure\ServiceBus\SymfonyQueryBus;
+use App\Tests\Integration\Fake\InMemoryRatingRepository;
 use App\Tests\Integration\Fake\InMemoryVoteRepository;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -22,33 +24,13 @@ class RateTest extends TestCase
 {
     public function testGetRate(): void
     {
-        $voteRepository = new InMemoryVoteRepository([
-            new Vote(
-                Identity::fromString('1c46e9ed-d03a-4103-a3f2-2504c1f0052c'),
-                Url::fromString('http://www.example.com'),
-                Rate::fromInteger(3),
-                Fingerprint::fromString('1c46e9ed'),
-                new DateTimeImmutable('2019-06-17 18:24:21')
-            ),
-            new Vote(
-                Identity::fromString('9af43775-cfd3-4276-86dd-d6c30a7511e3'),
-                Url::fromString('http://www.example.com'),
-                Rate::fromInteger(4),
-                Fingerprint::fromString('d6c30a7511e3'),
-                new DateTimeImmutable('2019-06-17 18:24:21')
-            ),
-            new Vote(
-                Identity::fromString('25f653ff-6947-40a3-afa4-f4ce13a65e2a'),
-                Url::fromString('http://www.site.com'),
-                Rate::fromInteger(2),
-                Fingerprint::fromString('25f653ff'),
-                new DateTimeImmutable('2019-06-17 18:24:21')
-            )
+        $rateRepository = new InMemoryRatingRepository([
+            new Rating(Url::fromString('http://www.example.com'), 2, 3.5),
         ]);
         $logger = new InMemoryLogger();
 
         $queryBus = new SymfonyQueryBus([
-            RatingQuery::class => new RatingQueryHandler($voteRepository, $logger)
+            RatingQuery::class => new RatingQueryHandler($rateRepository, $logger)
         ]);
 
         $ratingQuery = new RatingQuery('http://www.example.com');

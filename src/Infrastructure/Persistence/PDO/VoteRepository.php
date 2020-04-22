@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence;
+namespace App\Infrastructure\Persistence\PDO;
 
 use App\Domain\Vote\Fingerprint;
 use App\Domain\Vote\Url;
@@ -16,7 +16,7 @@ use DateTimeImmutable;
 use PDO;
 use PDOException;
 
-class PDOVoteRepository implements VoteRepositoryInterface
+class VoteRepository implements VoteRepositoryInterface
 {
     private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 

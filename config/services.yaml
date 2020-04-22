@@ -20,8 +20,13 @@ services:
             $username: '%env(DATABASE_USERNAME)%'
             $passwd: '%env(DATABASE_PASSWORD)%'
 
-    App\Infrastructure\Persistence\PDOVoteRepository: ~
-    App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDOVoteRepository'
+    App\Infrastructure\Persistence\PDO\VoteRepository: ~
+    App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDO\VoteRepository'
+
+    MongoDB\Client:
+        arguments: ['%env(MONGODB_DNS)%']
+
+    App\Domain\RatingRepositoryInterface: '@App\Infrastructure\Persistence\MongoDB\RatingRepository'
 
     App\Infrastructure\ServiceBus\SymfonyQueryBus:
         arguments:

@@ -6,7 +6,7 @@ namespace App\Application\Exception;
 
 use Exception;
 
-class RetrieveRateException extends Exception
+class RetrieveRatingException extends Exception
 {
 
 }
