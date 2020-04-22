@@ -23,7 +23,8 @@ services:
     App\Infrastructure\Persistence\PDO\VoteRepository: ~
     App\Domain\VoteRepositoryInterface: '@App\Infrastructure\Persistence\PDO\VoteRepository'
 
-    MongoDB\Client:
+    MongoDB\Database:
+        factory: ['App\Infrastructure\Persistence\MongoDB\DatabaseFactory', 'build']
         arguments: ['%env(MONGODB_DNS)%']
 
     App\Domain\RatingRepositoryInterface: '@App\Infrastructure\Persistence\MongoDB\RatingRepository'
