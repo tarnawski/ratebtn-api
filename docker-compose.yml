@@ -6,6 +6,9 @@ services:
     volumes:
       - .:/var/www/html
     working_dir: /var/www/html
+    depends_on:
+      - mysql
+      - mongodb
 
   nginx:
     image: nginx:stable
@@ -27,3 +30,8 @@ services:
       MYSQL_PASSWORD: secret
     volumes:
       - ./docker/mysql:/docker-entrypoint-initdb.d
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017

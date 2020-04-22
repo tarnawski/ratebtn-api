@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Vote;
+namespace App\Tests\Unit\Domain\Rating;
 
+use App\Domain\Rating\RatingCalculator;
 use App\Domain\Vote\Rate;
 use App\Domain\Vote\Vote;
 use App\Domain\Vote\VoteCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class VoteCollectionTest extends TestCase
+class RatingCalculatorTest extends TestCase
 {
     /**
      * @param array $votes
@@ -21,9 +22,9 @@ class VoteCollectionTest extends TestCase
     public function testCalculateAverage(array $votes, float $average): void
     {
         $votes = array_map(fn (int $vote) => $this->createVoteMock($vote), $votes);
-        $collection = new VoteCollection($votes);
+        $calculator = new RatingCalculator();
 
-        $this->assertEquals($average, $collection->calculateAverageOfVotes());
+        $this->assertEquals($average, $calculator->calculateAverageOfVotes(new VoteCollection($votes)));
     }
 
     public function rateAverageDataProvider(): array
@@ -45,9 +46,9 @@ class VoteCollectionTest extends TestCase
     public function testCalculateCount(array $votes, int $count): void
     {
         $votes = array_map(fn (int $vote) => $this->createVoteMock($vote), $votes);
-        $collection = new VoteCollection($votes);
+        $calculator = new RatingCalculator();
 
-        $this->assertEquals($count, $collection->getNumberOfVotes());
+        $this->assertEquals($count, $calculator->calculateCountOfVotes(new VoteCollection($votes)));
     }
 
     public function rateCountDataProvider(): array

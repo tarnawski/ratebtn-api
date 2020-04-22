@@ -1,0 +1,3 @@
+parameters:
+	excludes_analyse:
+		- src/Infrastructure/Persistence/MongoDB/*

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain;
+namespace App\Domain\Vote;
 
-use App\Domain\Vote\Vote;
+use App\Domain\VoteRepositoryInterface;
 
 class FraudChecker
 {
