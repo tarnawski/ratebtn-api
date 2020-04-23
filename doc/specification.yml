@@ -84,6 +84,9 @@ paths:
                 value:
                   type: integer
                   example: 5
+                fingerprint:
+                  type: string
+                  example: "9s8f7sdf97sdf"
       responses:
         '200':
           description: A JSON array with new application data.
