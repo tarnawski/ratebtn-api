@@ -8,7 +8,7 @@ A zero-configuration rate button for website
 [api.ratebtn.ttarnawski.usermd.net/specification](https://petstore.swagger.io/?url=https://api.ratebtn.ttarnawski.usermd.net/specification)
 
 ### CQRS architecture, Command & Command Handler Pattern
-![CQRS architecture, Command & Command Handler Pattern](doc/architecture.png "Architecture")
+![CQRS architecture, Command & Command Handler Pattern.](doc/architecture_01.png "Architecture")
 
 
 ### Getting started
