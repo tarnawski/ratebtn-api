@@ -29,6 +29,12 @@ services:
 
     App\Domain\RatingRepositoryInterface: '@App\Infrastructure\Persistence\MongoDB\RatingRepository'
 
+    Redis:
+        class: Redis
+        autowire: false
+        factory: ['App\Infrastructure\Queue\RedisFactory', 'build']
+        arguments: ['%env(REDIS_DSN)%']
+
     App\Infrastructure\ServiceBus\SymfonyQueryBus:
         arguments:
             $mapping:
@@ -40,6 +46,7 @@ services:
         arguments:
             $mapping:
                 'App\Application\Command\CreateVoteCommand': '@App\Application\Command\CreateVoteCommandHandler'
+                'App\Application\Command\UpdateRatingCommand': '@App\Application\Command\UpdateRatingCommandHandler'
 
     App\Application\CommandBusInterface: '@App\Infrastructure\ServiceBus\SymfonyCommandBus'
 

@@ -8,6 +8,7 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-mongodb": "*",
+        "ext-redis": "*",
         "mongodb/mongodb": "^1.6",
         "monolog/monolog": "^2.0",
         "nelmio/cors-bundle": "^2.0",
