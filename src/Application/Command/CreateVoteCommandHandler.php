@@ -7,10 +7,10 @@ namespace App\Application\Command;
 use App\Application\Exception\ErrorCode;
 use App\Application\Exception\SaveVoteException;
 use App\Application\LoggerInterface;
+use App\Application\QueueInterface;
 use App\Domain\CalendarInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\Vote\FraudChecker;
-use App\Domain\Rating\RatingUpdater;
 use App\Domain\UuidProviderInterface;
 use App\Domain\Vote\Fingerprint;
 use App\Infrastructure\Exception\PersistenceException;
@@ -26,7 +26,7 @@ class CreateVoteCommandHandler
     private FraudChecker $fraudChecker;
     private UuidProviderInterface $uuidProvider;
     private CalendarInterface $calendar;
-    private RatingUpdater $rateUpdater;
+    private QueueInterface $queue;
     private LoggerInterface $logger;
 
     public function __construct(
@@ -34,14 +34,14 @@ class CreateVoteCommandHandler
         FraudChecker $fraudChecker,
         UuidProviderInterface $uuidProvider,
         CalendarInterface $calendar,
-        RatingUpdater $rateUpdater,
+        QueueInterface $queue,
         LoggerInterface $logger
     ) {
         $this->voteRepository = $voteRepository;
         $this->fraudChecker = $fraudChecker;
         $this->uuidProvider = $uuidProvider;
         $this->calendar = $calendar;
-        $this->rateUpdater = $rateUpdater;
+        $this->queue = $queue;
         $this->logger = $logger;
     }
 
@@ -86,10 +86,6 @@ class CreateVoteCommandHandler
             'url' => $vote->getUrl()->asString(),
         ]);
 
-        try {
-            $this->rateUpdater->updateByUrl($vote->getUrl());
-        } catch (PersistenceException $exception) {
-            $this->logger->log(LoggerInterface::ERROR, 'Rating can not be persist.');
-        }
+        $this->queue->push($vote->getUrl());
     }
 }
