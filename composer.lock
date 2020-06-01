@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4c0e93010d6d6d80efd955ec5b0d61c",
+    "content-hash": "c5ca066d3614f21aa12b9315db6d4024",
     "packages": [
         {
             "name": "brick/math",
@@ -589,16 +589,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "7c229da093cb0c630e5d16b99fd253e20f979ac2"
+                "reference": "0c5f5b1882dc82b255a4bdead4ed3c7738cddc04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/7c229da093cb0c630e5d16b99fd253e20f979ac2",
-                "reference": "7c229da093cb0c630e5d16b99fd253e20f979ac2",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/0c5f5b1882dc82b255a4bdead4ed3c7738cddc04",
+                "reference": "0c5f5b1882dc82b255a4bdead4ed3c7738cddc04",
                 "shasum": ""
             },
             "require": {
@@ -664,7 +664,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2020-03-27T16:56:45+00:00"
+            "time": "2020-04-28T17:58:55+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -4950,7 +4950,9 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-mongodb": "*",
+        "ext-pdo": "*",
+        "ext-redis": "*"
     },
     "platform-dev": []
 }
