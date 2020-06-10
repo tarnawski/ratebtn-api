@@ -7,25 +7,30 @@ namespace App\Application\Query;
 use App\Application\Exception\ErrorCode;
 use App\Application\Exception\RetrieveRatingException;
 use App\Application\LoggerInterface;
+use App\Application\RatingCacheInterface;
 use App\Domain\Exception\DomainException;
 use App\Domain\RatingRepositoryInterface;
 use App\Domain\Vote\Url;
-use App\Domain\VoteRepositoryInterface;
-use App\Application\RatingResponse;
+use App\Application\Rating;
 use App\Infrastructure\Exception\PersistenceException;
 
 class RatingQueryHandler
 {
     private RatingRepositoryInterface $ratingRepository;
+    private RatingCacheInterface $cache;
     private LoggerInterface $logger;
 
-    public function __construct(RatingRepositoryInterface $ratingRepository, LoggerInterface $logger)
-    {
+    public function __construct(
+        RatingRepositoryInterface $ratingRepository,
+        RatingCacheInterface $cache,
+        LoggerInterface $logger
+    ) {
         $this->ratingRepository = $ratingRepository;
+        $this->cache = $cache;
         $this->logger = $logger;
     }
 
-    public function handle(RatingQuery $query): RatingResponse
+    public function handle(RatingQuery $query): Rating
     {
         $this->logger->log(LoggerInterface::NOTICE, 'Rating query appear in system.', [
             'url' => $query->getUrl(),
@@ -38,6 +43,10 @@ class RatingQueryHandler
             throw new RetrieveRatingException('String is not valid url.', ErrorCode::DOMAIN_ERROR, $exception);
         }
 
+        if ($this->cache->has($url)) {
+            return $this->cache->get($url);
+        }
+
         try {
             $rating = $this->ratingRepository->getByUrl($url);
         } catch (PersistenceException $exception) {
@@ -45,6 +54,9 @@ class RatingQueryHandler
             throw new RetrieveRatingException('Rating can not be fetch.', ErrorCode::PERSISTENCE_ERROR, $exception);
         }
 
-        return new RatingResponse($rating->getCount(), $rating->getAverage());
+        $rating = Rating::fromParams($rating->getCount(), $rating->getAverage());
+        $this->cache->save($url, $rating);
+
+        return $rating;
     }
 }
