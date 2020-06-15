@@ -10,6 +10,7 @@ use App\Application\Exception\RetrieveRatingException;
 use App\Application\Exception\SaveVoteException;
 use App\Application\Query\RatingQuery;
 use App\Application\QueryBusInterface;
+use App\Presentation\Web\Validator\CreateVoteInputValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,11 +25,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VoteController extends AbstractController
 {
+    private CreateVoteInputValidator $validator;
     private CommandBusInterface $commandBus;
     private QueryBusInterface $queryBus;
 
-    public function __construct(CommandBusInterface $commandBus, QueryBusInterface $queryBus)
+    public function __construct(CreateVoteInputValidator $validator, CommandBusInterface $commandBus, QueryBusInterface $queryBus)
     {
+        $this->validator = $validator;
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;
     }
@@ -68,38 +71,16 @@ class VoteController extends AbstractController
 
     public function createAction(Request $request): JsonResponse
     {
-        $form = $this->createFormBuilder()
-            ->add('url', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 5, 'max' => 255])
-                ],
-            ])
-            ->add('value', IntegerType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new GreaterThan(0),
-                    new LessThan(6),
-                ],
-            ])
-            ->add('fingerprint', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 5, 'max' => 255]),
-                ],
-            ])
-            ->getForm();
+        $data = json_decode($request->getContent(), true);
+        $errors = $this->validator->validate($data);
 
-        $form->submit(json_decode($request->getContent(), true));
-
-        if (!$form->isValid()) {
-            return $this->json([
-                "errors" => "validation_error",
-                "message" => $this->getFormErrorsAsArray($form)
-            ], Response::HTTP_BAD_REQUEST);
+        if (!empty($errors)) {
+            return $this->json(
+                ["errors" => "validation_error","message" => $errors],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
-        $data = $form->getData();
         $command = new CreateVoteCommand($data['url'], $data['value'], $data['fingerprint']);
 
         try {
@@ -109,21 +90,5 @@ class VoteController extends AbstractController
         }
 
         return $this->json(["status" => "success"], Response::HTTP_CREATED);
-    }
-
-    private function getFormErrorsAsArray(FormInterface $form): array
-    {
-        $errors = [];
-        foreach ($form->getErrors() as $key => $error) {
-            $errors[$key] = $error->getMessage();
-        }
-        foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $key = $child->getName();
-                $errors[$key] = $this->getFormErrorsAsArray($child);
-            }
-        }
-
-        return $errors;
     }
 }
