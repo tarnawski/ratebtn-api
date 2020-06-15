@@ -50,6 +50,9 @@ services:
 
     App\Application\CommandBusInterface: '@App\Infrastructure\ServiceBus\SymfonyCommandBus'
 
+    App\Infrastructure\Cache\SymfonyRatingCache: ~
+    App\Application\RatingCacheInterface: '@App\Infrastructure\Cache\SymfonyRatingCache'
+
     # Logger
     App\Infrastructure\Logger\MonologLogger:
         arguments:
