@@ -20,7 +20,7 @@ class FingerprintTest extends TestCase
         $this->assertEquals($value, $fingerprint->asString());
     }
 
-    public function validFingerprintDataProvider(): array
+    public static function validFingerprintDataProvider(): array
     {
         return [
             'valid numerical fingerprint' => ['83866757'],
@@ -37,7 +37,7 @@ class FingerprintTest extends TestCase
         Fingerprint::fromString($value);
     }
 
-    public function invalidFingerprintDataProvider(): array
+    public static function invalidFingerprintDataProvider(): array
     {
         return [
             'to short fingerprint' => ['7e11'],

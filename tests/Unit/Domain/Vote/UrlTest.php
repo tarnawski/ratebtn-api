@@ -19,7 +19,7 @@ class UrlTest extends TestCase
         $this->assertEquals($expected, $url->asString());
     }
 
-    public function validUrlDataProvider(): array
+    public static function validUrlDataProvider(): array
     {
         return [
             'valid url schema http' => ['http://www.example.com', 'http://www.example.com'],
@@ -38,7 +38,7 @@ class UrlTest extends TestCase
         Url::fromString($value);
     }
 
-    public function invalidUrlDataProvider(): array
+    public static function invalidUrlDataProvider(): array
     {
         return [
             'invalid url' => ['www.example'],

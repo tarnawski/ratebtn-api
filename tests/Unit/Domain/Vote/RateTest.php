@@ -19,7 +19,7 @@ class RateTest extends TestCase
         $this->assertEquals($value, $rate->asInteger());
     }
 
-    public function validRateDataProvider(): array
+    public static function validRateDataProvider(): array
     {
         return [
             'rate 1' => [1],
@@ -39,7 +39,7 @@ class RateTest extends TestCase
         Rate::fromInteger($value);
     }
 
-    public function invalidIdentityDataProvider(): array
+    public static function invalidIdentityDataProvider(): array
     {
         return [
             'rate equal 0' => [0],
