@@ -12,11 +12,8 @@ class RedisQueue implements QueueInterface
 {
     private const QUEUE_NAME = 'queue:url';
 
-    private Redis $client;
-
-    public function __construct(Redis $client)
+    public function __construct(private readonly Redis $client)
     {
-        $this->client = $client;
     }
 
     public function push(Url $url): void

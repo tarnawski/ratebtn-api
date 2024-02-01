@@ -20,11 +20,8 @@ class VoteRepository implements VoteRepositoryInterface
 {
     private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    private PDO $connection;
-
-    public function __construct(PDO $connection)
+    public function __construct(private readonly PDO $connection)
     {
-        $this->connection = $connection;
     }
 
     public function findByIdentity(Identity $identity): Vote

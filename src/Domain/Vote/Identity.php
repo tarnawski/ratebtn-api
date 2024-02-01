@@ -10,7 +10,7 @@ class Identity
 {
     private const UUID_PATTERN = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
 
-    private string $value;
+    private readonly string $value;
 
     private function __construct(string $value)
     {

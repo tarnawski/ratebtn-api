@@ -6,7 +6,7 @@ namespace App\Application\Query;
 
 class RatingQuery
 {
-    private string $url;
+    private readonly string $url;
 
     public function __construct(string $url)
     {

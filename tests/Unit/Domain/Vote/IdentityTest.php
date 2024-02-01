@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class IdentityTest extends TestCase
 {
     /**
-     * @param string $value
      * @dataProvider validIdentityDataProvider
      */
     public function testCreateIdentityWithValidString(string $value): void
@@ -32,7 +31,6 @@ class IdentityTest extends TestCase
     }
 
     /**
-     * @param string $value
      * @dataProvider invalidIdentityDataProvider
      */
     public function testCreateIdentityWithInvalidString(string $value): void

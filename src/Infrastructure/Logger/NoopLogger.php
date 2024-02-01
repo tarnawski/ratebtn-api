@@ -8,7 +8,7 @@ use App\Application\LoggerInterface;
 
 class NoopLogger implements LoggerInterface
 {
-    public function log(int $level, string $message, array $context = []): void
+    public function log(string $level, string $message, array $context = []): void
     {
         // This logger do nothing.
     }

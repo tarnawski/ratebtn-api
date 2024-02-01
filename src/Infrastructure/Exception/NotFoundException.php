@@ -6,5 +6,4 @@ namespace App\Infrastructure\Exception;
 
 class NotFoundException extends PersistenceException
 {
-
 }

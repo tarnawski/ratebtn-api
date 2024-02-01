@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
 class UrlTest extends TestCase
 {
     /**
-     * @param string $value
-     * @param string $expected
-     *
      * @dataProvider validUrlDataProvider
      */
     public function testCreateUrlWithValidString(string $value, string $expected): void
@@ -33,8 +30,6 @@ class UrlTest extends TestCase
     }
 
     /**
-     * @param string $value
-     *
      * @dataProvider invalidUrlDataProvider
      */
     public function testCreateUrlWithInvalidString(string $value): void

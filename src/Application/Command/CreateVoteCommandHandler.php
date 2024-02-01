@@ -22,27 +22,14 @@ use App\Domain\VoteRepositoryInterface;
 
 class CreateVoteCommandHandler
 {
-    private VoteRepositoryInterface $voteRepository;
-    private FraudChecker $fraudChecker;
-    private UuidProviderInterface $uuidProvider;
-    private CalendarInterface $calendar;
-    private QueueInterface $queue;
-    private LoggerInterface $logger;
-
     public function __construct(
-        VoteRepositoryInterface $voteRepository,
-        FraudChecker $fraudChecker,
-        UuidProviderInterface $uuidProvider,
-        CalendarInterface $calendar,
-        QueueInterface $queue,
-        LoggerInterface $logger
+        private readonly VoteRepositoryInterface $voteRepository,
+        private readonly FraudChecker $fraudChecker,
+        private readonly UuidProviderInterface $uuidProvider,
+        private readonly CalendarInterface $calendar,
+        private readonly QueueInterface $queue,
+        private readonly LoggerInterface $logger,
     ) {
-        $this->voteRepository = $voteRepository;
-        $this->fraudChecker = $fraudChecker;
-        $this->uuidProvider = $uuidProvider;
-        $this->calendar = $calendar;
-        $this->queue = $queue;
-        $this->logger = $logger;
     }
 
     public function handle(CreateVoteCommand $command): void

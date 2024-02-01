@@ -10,8 +10,6 @@ use App\Domain\Vote\VoteCollection;
 interface VoteRepositoryInterface
 {
     public function findByIdentity(Identity $identity): Vote;
-
     public function findByUrl(Url $url): VoteCollection;
-
     public function add(Vote $vote): void;
 }

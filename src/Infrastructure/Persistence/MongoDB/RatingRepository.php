@@ -16,11 +16,8 @@ class RatingRepository implements RatingRepositoryInterface
 {
     private const COLLECTION_NAME = 'rating';
 
-    private Database $database;
-
-    public function __construct(Database $database)
+    public function __construct(private readonly Database $database)
     {
-        $this->database = $database;
     }
 
     public function getByUrl(Url $url): Rating

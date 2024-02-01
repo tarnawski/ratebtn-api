@@ -10,7 +10,7 @@ use Monolog\Logger;
 
 class MonologLogger implements LoggerInterface
 {
-    private Logger $logger;
+    private readonly Logger $logger;
 
     public function __construct(string $name, string $path)
     {
@@ -18,7 +18,7 @@ class MonologLogger implements LoggerInterface
         $this->logger->pushHandler(new StreamHandler($path));
     }
 
-    public function log(int $level, string $message, array $context = []): void
+    public function log(string $level, string $message, array $context = []): void
     {
         $this->logger->log($level, $message, $context);
     }

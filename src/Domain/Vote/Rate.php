@@ -8,11 +8,14 @@ use App\Domain\Exception\InvalidArgumentException;
 
 class Rate
 {
-    private int $value;
+    private const MIN_RATE_VALUE = 1;
+    private const MAX_RATE_VALUE = 5;
+
+    private readonly int $value;
 
     private function __construct(int $value)
     {
-        if ($value < 1 || $value > 5) {
+        if ($value < self::MIN_RATE_VALUE || $value > self::MAX_RATE_VALUE) {
             throw new InvalidArgumentException(sprintf('Rate "%u" is not valid.', $value));
         }
 

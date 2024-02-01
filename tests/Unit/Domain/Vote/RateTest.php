@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class RateTest extends TestCase
 {
     /**
-     * @param int $value
      * @dataProvider validRateDataProvider
      */
     public function testCreateIdentityWithValidInteger(int $value): void
@@ -32,8 +31,6 @@ class RateTest extends TestCase
     }
 
     /**
-     * @param int $value
-     *
      * @dataProvider invalidIdentityDataProvider
      */
     public function testCreateRateWithInvalidInteger(int $value): void

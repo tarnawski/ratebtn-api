@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 class FingerprintTest extends TestCase
 {
     /**
-     * @param string $value
      * @dataProvider validFingerprintDataProvider
      */
     public function testCreateFingerprintWithValidString(string $value): void
@@ -30,7 +29,6 @@ class FingerprintTest extends TestCase
     }
 
     /**
-     * @param string $value
      * @dataProvider invalidFingerprintDataProvider
      */
     public function testCreateIdentityWithInvalidString(string $value): void
