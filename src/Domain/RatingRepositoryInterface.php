@@ -8,6 +8,5 @@ use App\Domain\Vote\Url;
 interface RatingRepositoryInterface
 {
     public function getByUrl(Url $url): Rating;
-
     public function update(Rating $rating): void;
 }

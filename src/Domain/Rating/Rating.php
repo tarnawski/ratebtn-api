@@ -8,9 +8,9 @@ use App\Domain\Vote\Url;
 
 class Rating
 {
-    private Url $url;
-    private int $count;
-    private float $average;
+    private readonly Url $url;
+    private readonly int $count;
+    private readonly float $average;
 
     public function __construct(Url $url, int $count, float $average)
     {

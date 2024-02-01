@@ -16,18 +16,11 @@ use App\Infrastructure\Exception\PersistenceException;
 
 class RatingQueryHandler
 {
-    private RatingRepositoryInterface $ratingRepository;
-    private RatingCacheInterface $cache;
-    private LoggerInterface $logger;
-
     public function __construct(
-        RatingRepositoryInterface $ratingRepository,
-        RatingCacheInterface $cache,
-        LoggerInterface $logger
+        private readonly RatingRepositoryInterface $ratingRepository,
+        private readonly RatingCacheInterface $cache,
+        private readonly LoggerInterface $logger,
     ) {
-        $this->ratingRepository = $ratingRepository;
-        $this->cache = $cache;
-        $this->logger = $logger;
     }
 
     public function handle(RatingQuery $query): Rating

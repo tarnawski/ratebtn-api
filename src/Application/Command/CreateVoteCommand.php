@@ -6,9 +6,9 @@ namespace App\Application\Command;
 
 class CreateVoteCommand
 {
-    private string $url;
-    private int $rate;
-    private string $fingerprint;
+    private readonly string $url;
+    private readonly int $rate;
+    private readonly string $fingerprint;
 
     public function __construct(string $url, int $rate, string $fingerprint)
     {

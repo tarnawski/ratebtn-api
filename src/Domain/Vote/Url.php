@@ -11,7 +11,7 @@ class Url
     private const MIN_URL_LENGTH = 5;
     private const MAX_URL_LENGTH = 255;
 
-    private string $value;
+    private readonly string $value;
 
     private function __construct(string $value)
     {

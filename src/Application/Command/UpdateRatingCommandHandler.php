@@ -15,15 +15,11 @@ use App\Infrastructure\Exception\PersistenceException;
 
 class UpdateRatingCommandHandler
 {
-    private RatingUpdater $rateUpdater;
-    private RatingCacheInterface $ratingCache;
-    private LoggerInterface $logger;
-
-    public function __construct(RatingUpdater $rateUpdater, RatingCacheInterface $ratingCache, LoggerInterface $logger)
-    {
-        $this->rateUpdater = $rateUpdater;
-        $this->ratingCache = $ratingCache;
-        $this->logger = $logger;
+    public function __construct(
+        private readonly RatingUpdater $rateUpdater,
+        private readonly RatingCacheInterface $ratingCache,
+        private readonly LoggerInterface $logger,
+    ) {
     }
 
     public function handle(UpdateRatingCommand $command): void

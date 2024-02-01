@@ -11,7 +11,7 @@ class Fingerprint
     private const MIN_FINGERPRINT_LENGTH = 5;
     private const MAX_FINGERPRINT_LENGTH = 36;
 
-    private string $value;
+    private readonly string $value;
 
     public function __construct(string $value)
     {

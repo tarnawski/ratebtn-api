@@ -6,7 +6,7 @@ namespace App\Application\Command;
 
 class UpdateRatingCommand
 {
-    public string $url;
+    public readonly string $url;
 
     public function __construct(string $url)
     {

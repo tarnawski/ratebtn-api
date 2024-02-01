@@ -13,12 +13,11 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class SymfonyQueryBus implements QueryBusInterface
 {
-    private MessageBus $bus;
+    private readonly MessageBus $bus;
 
     public function __construct(array $mapping)
     {
         $mapping = array_map(fn ($handler) => [new QueryHandlerAdapter($handler)], $mapping);
-
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 

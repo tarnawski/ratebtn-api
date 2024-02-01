@@ -8,11 +8,8 @@ use App\Domain\VoteRepositoryInterface;
 
 class FraudChecker
 {
-    private VoteRepositoryInterface $voteRepository;
-
-    public function __construct(VoteRepositoryInterface $voteRepository)
+    public function __construct(private readonly VoteRepositoryInterface $voteRepository)
     {
-        $this->voteRepository = $voteRepository;
     }
 
     public function check(Vote $vote): bool

@@ -15,7 +15,7 @@ trait ItemIteratorTrait
         $this->position = $position;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->items[$this->position];
     }
