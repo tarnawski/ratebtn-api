@@ -15,7 +15,7 @@ class InMemoryLogger implements LoggerInterface
         $this->logs = $logs;
     }
 
-    public function log(int $level, string $message, array $context = []): void
+    public function log(string $level, string $message, array $context = []): void
     {
         $this->logs[] = [$level, $message, $context];
     }

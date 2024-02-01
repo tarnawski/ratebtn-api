@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
 class UrlTest extends TestCase
 {
     /**
-     * @param string $value
-     * @param string $expected
-     *
      * @dataProvider validUrlDataProvider
      */
     public function testCreateUrlWithValidString(string $value, string $expected): void
@@ -22,7 +19,7 @@ class UrlTest extends TestCase
         $this->assertEquals($expected, $url->asString());
     }
 
-    public function validUrlDataProvider(): array
+    public static function validUrlDataProvider(): array
     {
         return [
             'valid url schema http' => ['http://www.example.com', 'http://www.example.com'],
@@ -33,8 +30,6 @@ class UrlTest extends TestCase
     }
 
     /**
-     * @param string $value
-     *
      * @dataProvider invalidUrlDataProvider
      */
     public function testCreateUrlWithInvalidString(string $value): void
@@ -43,7 +38,7 @@ class UrlTest extends TestCase
         Url::fromString($value);
     }
 
-    public function invalidUrlDataProvider(): array
+    public static function invalidUrlDataProvider(): array
     {
         return [
             'invalid url' => ['www.example'],

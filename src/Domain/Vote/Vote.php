@@ -8,11 +8,11 @@ use DateTimeImmutable;
 
 class Vote
 {
-    private Identity $identity;
-    private Url $url;
-    private Rate $rate;
-    private Fingerprint $fingerprint;
-    private DateTimeImmutable $createAt;
+    private readonly Identity $identity;
+    private readonly Url $url;
+    private readonly Rate $rate;
+    private readonly Fingerprint $fingerprint;
+    private readonly DateTimeImmutable $createAt;
 
     public function __construct(Identity $identity, Url $url, Rate $rate, Fingerprint $fingerprint, DateTimeImmutable $createAt)
     {

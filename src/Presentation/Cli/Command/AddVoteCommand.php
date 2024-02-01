@@ -6,12 +6,14 @@ namespace App\Presentation\Cli\Command;
 
 use App\Application\Command\CreateVoteCommand;
 use App\Application\CommandBusInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddVoteCommand extends Command
+#[AsCommand(name: 'app:vote-add')]
+final class AddVoteCommand extends Command
 {
     protected static $defaultName = 'app:vote-add';
 
@@ -23,7 +25,7 @@ class AddVoteCommand extends Command
         $this->commandBus = $commandBus;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Create new vote.')

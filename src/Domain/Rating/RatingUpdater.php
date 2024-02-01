@@ -10,27 +10,21 @@ use App\Domain\VoteRepositoryInterface;
 
 class RatingUpdater
 {
-    private VoteRepositoryInterface $voteRepository;
-    private RatingRepositoryInterface $ratingRepository;
-    private RatingCalculator $ratingCalculator;
-
     public function __construct(
-        VoteRepositoryInterface $voteRepository,
-        RatingRepositoryInterface $ratingRepository,
-        RatingCalculator $ratingCalculator
+        private readonly VoteRepositoryInterface $voteRepository,
+        private readonly RatingRepositoryInterface $ratingRepository,
+        private readonly RatingCalculator $ratingCalculator,
     ) {
-        $this->voteRepository = $voteRepository;
-        $this->ratingRepository = $ratingRepository;
-        $this->ratingCalculator = $ratingCalculator;
     }
 
     public function updateByUrl(Url $url): void
     {
         $votes = $this->voteRepository->findByUrl($url);
-        $this->ratingRepository->update(new Rating(
+        $rating = new Rating(
             $url,
             $this->ratingCalculator->calculateCountOfVotes($votes),
             $this->ratingCalculator->calculateAverageOfVotes($votes)
-        ));
+        );
+        $this->ratingRepository->update($rating);
     }
 }

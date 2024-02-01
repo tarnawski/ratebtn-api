@@ -14,9 +14,6 @@ use PHPUnit\Framework\TestCase;
 class RatingCalculatorTest extends TestCase
 {
     /**
-     * @param array $votes
-     * @param float $average
-     *
      * @dataProvider rateAverageDataProvider
      */
     public function testCalculateAverage(array $votes, float $average): void
@@ -27,7 +24,7 @@ class RatingCalculatorTest extends TestCase
         $this->assertEquals($average, $calculator->calculateAverageOfVotes(new VoteCollection($votes)));
     }
 
-    public function rateAverageDataProvider(): array
+    public static function rateAverageDataProvider(): array
     {
         return [
             'vote set 1' => [[], 0.0],
@@ -38,9 +35,6 @@ class RatingCalculatorTest extends TestCase
     }
 
     /**
-     * @param array $votes
-     * @param int $count
-     *
      * @dataProvider rateCountDataProvider
      */
     public function testCalculateCount(array $votes, int $count): void
@@ -51,7 +45,7 @@ class RatingCalculatorTest extends TestCase
         $this->assertEquals($count, $calculator->calculateCountOfVotes(new VoteCollection($votes)));
     }
 
-    public function rateCountDataProvider(): array
+    public static function rateCountDataProvider(): array
     {
         return [
             'vote set 1' => [[], 0],

@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class IdentityTest extends TestCase
 {
     /**
-     * @param string $value
      * @dataProvider validIdentityDataProvider
      */
     public function testCreateIdentityWithValidString(string $value): void
@@ -20,7 +19,7 @@ class IdentityTest extends TestCase
         $this->assertEquals($value, $identity->asString());
     }
 
-    public function validIdentityDataProvider(): array
+    public static function validIdentityDataProvider(): array
     {
         return [
             'valid uuid example 1' => ['83866757-5304-4f11-aa71-f88bd0e4b2a0'],
@@ -32,7 +31,6 @@ class IdentityTest extends TestCase
     }
 
     /**
-     * @param string $value
      * @dataProvider invalidIdentityDataProvider
      */
     public function testCreateIdentityWithInvalidString(string $value): void
@@ -41,7 +39,7 @@ class IdentityTest extends TestCase
         Identity::fromString($value);
     }
 
-    public function invalidIdentityDataProvider(): array
+    public static function invalidIdentityDataProvider(): array
     {
         return [
             'valid uuid version 1' => ['7e111f88-caa4-11e9-a32f-2a2ae2dbcce4'],

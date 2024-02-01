@@ -8,8 +8,8 @@ class Rating
 {
     private const DEFAULT_AVERAGE_PRECISION = 2;
 
-    private int $count;
-    private float $average;
+    private readonly int $count;
+    private readonly float $average;
 
     private function __construct(int $count, float $average)
     {
@@ -31,7 +31,7 @@ class Rating
     {
         return [
             'count' => $this->count,
-            'average' => round($this->average, $averagePrecision)
+            'average' => round($this->average, $averagePrecision),
         ];
     }
 }

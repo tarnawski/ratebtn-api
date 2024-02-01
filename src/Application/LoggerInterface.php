@@ -6,12 +6,12 @@ namespace App\Application;
 
 interface LoggerInterface
 {
-    public const DEBUG = 100;
-    public const INFO = 200;
-    public const NOTICE = 250;
-    public const WARNING = 300;
-    public const ERROR = 400;
-    public const CRITICAL = 500;
+    public const DEBUG = 'DEBUG';
+    public const INFO = 'INFO';
+    public const NOTICE = 'NOTICE';
+    public const WARNING = 'WARNING';
+    public const ERROR = 'ERROR';
+    public const CRITICAL = 'CRITICAL';
 
-    public function log(int $level, string $message, array $context = []): void;
+    public function log(string $level, string $message, array $context = []): void;
 }

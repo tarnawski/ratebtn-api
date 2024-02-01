@@ -18,14 +18,11 @@ class SymfonyRatingCache implements RatingCacheInterface
 {
     private const RATING_TAG = 'rating';
 
-    private TagAwareAdapterInterface $cache;
+    private readonly TagAwareAdapterInterface $cache;
 
     public function __construct(Redis $client)
     {
-        $this->cache = new TagAwareAdapter(
-            new RedisAdapter($client),
-            new RedisAdapter($client),
-        );
+        $this->cache = new TagAwareAdapter(new RedisAdapter($client), new RedisAdapter($client));
     }
 
     public function has(Url $url): bool
@@ -53,7 +50,6 @@ class SymfonyRatingCache implements RatingCacheInterface
     public function save(Url $url, Rating $rating): void
     {
         try {
-            /** @var CacheItem $item */
             $item = $this->cache->getItem(md5($url->asString()));
             $item->set(json_encode($rating->toArray()));
             $item->tag(self::RATING_TAG);

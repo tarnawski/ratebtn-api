@@ -12,12 +12,11 @@ use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
 
 class SymfonyCommandBus implements CommandBusInterface
 {
-    private MessageBus $bus;
+    private readonly MessageBus $bus;
 
     public function __construct(array $mapping)
     {
         $mapping = array_map(fn ($handler) => [new CommandHandlerAdapter($handler)], $mapping);
-
         $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($mapping))]);
     }
 

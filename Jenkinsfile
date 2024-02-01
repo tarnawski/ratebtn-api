@@ -15,22 +15,22 @@ pipeline {
 			steps {
 				parallel (
 					"Check PSR-2": {
-						sh 'php74 vendor/bin/phpcs --standard="PSR12" -n src/ tests/'
+						sh 'php83 vendor/bin/phpcs --standard="PSR12" -n src/ tests/'
 					},
 					"PHPStan": {
-						sh 'php74 vendor/bin/phpstan analyse src -l 5 -c phpstan.neon'
+						sh 'php83 vendor/bin/phpstan analyse src -l 5 -c phpstan.neon'
 					}
 				)
 			}
 		}
 		stage('Unit Tests') {
 			steps {
-				sh 'php74 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=unit'
+				sh 'php83 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=unit'
 			}
 		}
 		stage('Integration Tests') {
 			steps {
-				sh 'php74 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=integration'
+				sh 'php83 vendor/bin/phpunit -c phpunit.xml.dist --testsuite=integration'
 			}
 		}
 		stage('Deploy to production') {

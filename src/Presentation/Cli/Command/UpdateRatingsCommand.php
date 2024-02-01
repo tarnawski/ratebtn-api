@@ -7,14 +7,14 @@ namespace App\Presentation\Cli\Command;
 use App\Application\Command\UpdateRatingCommand;
 use App\Application\CommandBusInterface;
 use App\Application\QueueInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateRatingsCommand extends Command
+#[AsCommand(name: 'app:update-ratings')]
+final class UpdateRatingsCommand extends Command
 {
-    protected static $defaultName = 'app:update-ratings';
-
     private CommandBusInterface $commandBus;
     private QueueInterface $queue;
 
@@ -25,7 +25,7 @@ class UpdateRatingsCommand extends Command
         $this->queue = $queue;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Update ratings')

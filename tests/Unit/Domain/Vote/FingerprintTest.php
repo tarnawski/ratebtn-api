@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 class FingerprintTest extends TestCase
 {
     /**
-     * @param string $value
      * @dataProvider validFingerprintDataProvider
      */
     public function testCreateFingerprintWithValidString(string $value): void
@@ -21,7 +20,7 @@ class FingerprintTest extends TestCase
         $this->assertEquals($value, $fingerprint->asString());
     }
 
-    public function validFingerprintDataProvider(): array
+    public static function validFingerprintDataProvider(): array
     {
         return [
             'valid numerical fingerprint' => ['83866757'],
@@ -30,7 +29,6 @@ class FingerprintTest extends TestCase
     }
 
     /**
-     * @param string $value
      * @dataProvider invalidFingerprintDataProvider
      */
     public function testCreateIdentityWithInvalidString(string $value): void
@@ -39,7 +37,7 @@ class FingerprintTest extends TestCase
         Fingerprint::fromString($value);
     }
 
-    public function invalidFingerprintDataProvider(): array
+    public static function invalidFingerprintDataProvider(): array
     {
         return [
             'to short fingerprint' => ['7e11'],
