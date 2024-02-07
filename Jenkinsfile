@@ -8,7 +8,7 @@ pipeline {
 		}
 		stage('Composer Install Dev') {
 			steps {
-				sh 'composer install --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
+				sh 'composer2 install --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
 			}
 		}
 		stage ('Static code analysis') {
