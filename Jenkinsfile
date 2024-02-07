@@ -40,8 +40,8 @@ pipeline {
 				   def date = new Date()
 				   writeFile(file: 'info.json', text: "{\"release_date\": \"" + date + "\"}")
 				}
-				sh 'composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
-				sh 'composer archive --format=tar --file=artifact'
+				sh 'composer2 install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs --no-progress --no-suggest'
+				sh 'composer2 archive --format=tar --file=artifact'
 				sh 'ansible-playbook ansible/deploy.yml'
 			}
 		}
