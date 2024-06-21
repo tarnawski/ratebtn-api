@@ -11,4 +11,4 @@ jobs:
           extensions: bcmath
       
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist
